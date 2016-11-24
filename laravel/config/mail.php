@@ -15,7 +15,9 @@ return [
     |
     */
 
-    'driver' => 'smtp',
+    // 'driver' => env('MAIL_DRIVER', 'sendmail'),
+    'driver' => env('MAIL_DRIVER', 'smtp'),
+
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +30,9 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+    // 'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +45,9 @@ return [
     |
     */
 
+    // 'port' => env('MAIL_PORT', 587),
     'port' => env('MAIL_PORT', 587),
+
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +60,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'sayour@shop.com', 'name' => 'sayourshop.com'],
+    'from' => ['address' => null, 'name' => null],
 
     /*
     |--------------------------------------------------------------------------
@@ -67,7 +73,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => 'tls',
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +86,9 @@ return [
     |
     */
 
-    'username' => 'sayourshop.official@gmail.com',
+    // 'username' => env('MAIL_USERNAME','sayourshop.official@gmail.com'),
+    'username' => env('MAIL_USERNAME'),
+
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +101,8 @@ return [
     |
     */
 
-    'password' => 'jttbezvljlkgxalv',
+    // 'password' => env('MAIL_PASSWORD','jttbezvljlkgxalv'),
+    'password' => env('MAIL_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------

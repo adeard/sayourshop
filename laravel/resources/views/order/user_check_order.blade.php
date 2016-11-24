@@ -1,25 +1,14 @@
- <!-- Checkout / Billing Address -->
+<!-- Checkout / Billing Address -->
 <section class="checkout" style="margin-top:20px">
     <div class="container" style="padding: 0px;">
         <div class="row">
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{session('success')}}
-                </div>
-            @endif
-            @if(session('fail'))
-                <div class="alert alert-danger">
-                    {{session('fail')}}
-                </div>
-            @endif
             <div class="span2"></div>
             <div class="span8">
                 <div class="box" style="padding-top: 0px;">
                      <!-- Checkout content -->
                     <div id="checkout-content">
                         <div class="box-header" style="background-color: #1abc9c;padding: 10px;">
-                            <h3 style="color: white;">Nomor Invoice Anda : <u>{{$data['order']->no_invoice}}</u></h3>
-                            <h5 style="color: white">Gunakan nomor ini untuk mengecek pesanan Anda</h5>
+                            <h3 style="color: white;">Nomor Invoice Anda : <u>{{$data['order']->no_invoice}}</u> <div class="pull-right">Status : {{$data['order']->order_status}}</div></h3>
                         </div>
                         <div class="box-content">
                             <table class="table table-responsive">
@@ -92,42 +81,27 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
-                                                    <tr>
-                                                        <td colspan="2">&nbsp;</td>
-                                                        <td>Subtotal</td>
-                                                        <td colspan="3">Rp. {{ number_format($data['order']->total_discount+$data['order']->total_price-$data['order']->shipping_price, 0, ",", ".") }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="2">&nbsp;</td>
-                                                        <td>Diskon</td>
-                                                        <td>- Rp. {{ number_format($data['order']->total_discount, 0, ",", ".") }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="2">&nbsp;</td>
-                                                        <td>Biaya Kirim</td>
-                                                        <td colspan="3">Rp. {{ number_format($data['order']->shipping_price, 0, ",", ".") }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="2">&nbsp;</td>
-                                                        <td>Total Biaya</td>
-                                                        <td colspan="3"><b>Rp. {{ number_format($data['order']->total_price, 0, ",", ".") }}</b></td>
-                                                    </tr>
+                                                <tr>
+                                                    <td colspan="2">&nbsp;</td>
+                                                    <td>Subtotal</td>
+                                                    <td colspan="3">Rp. {{ number_format($data['order']->total_discount+$data['order']->total_price-$data['order']->shipping_price, 0, ",", ".") }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">&nbsp;</td>
+                                                    <td>Diskon</td>
+                                                    <td>- Rp. {{ number_format($data['order']->total_discount, 0, ",", ".") }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">&nbsp;</td>
+                                                    <td>Biaya Kirim</td>
+                                                    <td colspan="3">Rp. {{ number_format($data['order']->shipping_price, 0, ",", ".") }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">&nbsp;</td>
+                                                    <td>Total Biaya</td>
+                                                    <td colspan="3"><b>Rp. {{ number_format($data['order']->total_price, 0, ",", ".") }}</b></td>
+                                                </tr>
                                             </tbody>
-                                        </table>
-                                        <table>
-                                            <tr>
-                                                <?php 
-                                                    $bank = unserialize($data['bank']->meta_value);
-                                                ?>
-                                                <td width="50%">
-                                                    Pembayaran paling lambat <b>1x24 jam</b>. Silahkan transfer ke salah satu No. Rekening berikut
-                                                </td>
-                                                <td >
-                                                    @foreach( $bank as $key => $value)
-                                                            {{$value['bank_name']}} {{$value['bank_account']}} a.n {{$value['account_name']}}<br>
-                                                    @endforeach
-                                                </td>
-                                            </tr>
                                         </table>
                                     </div>
                                 </div>

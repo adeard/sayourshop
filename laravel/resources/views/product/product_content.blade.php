@@ -1,6 +1,7 @@
 <div class="span10 posts" style="padding-top: 10px;">
     <!-- Products list -->
     <div class="product-list">
+        
         @foreach($data['product'] as $product)
             <?php
                 $image = unserialize($product->image);
@@ -25,6 +26,7 @@
                 </a>
             </li>
         @endforeach
+
     </div>
     <?php $products = $data['product']?>
     <div align="center">
@@ -33,15 +35,20 @@
 </div>
 <script type="text/javascript">
     $('.pagination a').click(function(e){
+
         $('#content').css('display', 'none');
+
         e.preventDefault();
+
         var url = $(this).attr('href');
         var category_id = $('#slug_category').val();
         var subcategory_id = $('#slug_subcategory').val();
         var sortby = $('#sort').val();
+
         if (sortby == undefined) {
             var sortby = 'name';
         };
+        
         $.ajax({
             url: url ,
             data: (subcategory_id == undefined ) ? {

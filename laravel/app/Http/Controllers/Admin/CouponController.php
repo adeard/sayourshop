@@ -22,6 +22,7 @@ class CouponController extends AdminController
 		$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick', 'dataTables_js', 'dataTables_bootsjs', 'datepicker', 'daterangepicker']);
 		$this->data['title']		= 'Coupon | List';
 		$this->data['kupon']		= Option::where('meta_key','voucher')->get();
+
 	    return view('admin_layout')->with('data', $this->data)
 								  ->nest('content', 'admin/setting/coupon', array('data' => $this->data));
 	}
@@ -49,12 +50,14 @@ class CouponController extends AdminController
 				$sum_array = array_push($unserialize, $voucher);
 				$serialize = serialize($unserialize);
 				$total = Option::where('meta_key','voucher')->update(['meta_value' => $serialize]);
+
 				return redirect('master/setting/coupon')->with('success','Code Voucher berhasil ditambahkan');
 			}else{
 				$voc = new Option;
 				$voc->meta_key = "voucher";
 				$voc->meta_value = serialize(array($voucher));
 				$voc->save();
+
 				return redirect('master/setting/coupon')->with('success','Code Voucher berhasil ditambahkan');
 			}
 		}catch(Exception $e){
@@ -95,6 +98,7 @@ class CouponController extends AdminController
 		$reindex = array_values($a);
 		$serialize = serialize($reindex);
 		Option::where('meta_key','voucher')->update(['meta_value' => $serialize]);
+		
 		return redirect('master/setting/coupon/')->with('success','Voucher berhasil dihapus');
 	}
 }

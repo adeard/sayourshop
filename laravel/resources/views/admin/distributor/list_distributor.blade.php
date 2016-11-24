@@ -33,7 +33,6 @@
 
                     <thead>
                       <tr>
-                        <th>No</th>
                         <th>Nama Distributor</th>
                         <th>Email</th>
                         <th>Address</th>
@@ -42,23 +41,6 @@
                         <th></th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <?php $i=1; foreach($data['distributor'] as $distributor): ?> 
-                      <tr>
-                        <td><?= $i ?></td>
-                        <td><?= $distributor->name ?></td>
-                        <td><?= $distributor->email ?></td>
-                        <td><?= $distributor->address ?></td>
-                        <td><?= $distributor->phone ?></td>
-                        <td><?= $distributor->created_at ?></td>
-                        <td>
-                          <a href="{{url('/master/distributor/view')}}/<?=$distributor->id?>"><i class="fa fa-eye"></i></a>
-                          <a href="{{url('/master/distributor/edit')}}/<?=$distributor->id?>"><font color="orange"><i class="fa fa-pencil"></i></font></a>
-                          <a href="#" id="delete" value="<?=$distributor->id?>" method="post"><font color="red"><i class="fa fa-remove"></i></font></a>
-                        </td>
-                      </tr>
-                      <?php $i++; endforeach; ?>
-                    </tbody>
                   </table>
                   <?php // ======================== END Data Table ================================ ?>
             </div><!-- /.box-body -->
@@ -69,16 +51,40 @@
 @section('script')
 	  <script>
       $(function () {
-        $("#distributorlist_table").DataTable();
+        $('#distributorlist_table').DataTable({
+            processing: true,
+            serverSide: true,
+            bDestroy:true,
+            pagingType:"full_numbers",
+            pageLength: 10,
+            responsive: true,
+            ajax: { url:'{!! url("get_list_distributor") !!}'},
+            columns: [
+                { data: 'name'},
+                { data: 'email', name: 'email'},
+                { data: 'address', name: 'address'},
+                { data: 'phone'},
+                { data: 'created_at'},
+                { data: 'opt'},
+            ]
+        });
       });
 
-      $('a#delete').click(function(){
-        r = confirm("Hapus Distributor ?");
+      $("#distributorlist_table").on("click", "a#delete", function(){
+         r = confirm("Hapus Distributor ?");
 
         if (r == true) {
            window.location.href='{{url("/master/distributor/delete")}}/'+$(this).attr("value");
         }
-
       });
+
+      // $('a#delete').click(function(){
+      //   r = confirm("Hapus Distributor ?");
+
+      //   if (r == true) {
+      //      window.location.href='{{url("/master/distributor/delete")}}/'+$(this).attr("value");
+      //   }
+
+      // });
     </script>
 @stop

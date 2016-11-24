@@ -72,7 +72,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-            <div class="col-lg-12 box border-top">
+                <div class="col-lg-12 box border-top">
                     <h4 >Produk Terlaris</h4>
                     <div class="product-list isotope">
                         @foreach($data['sold'] as $product)
@@ -102,8 +102,7 @@
                             @endif
                         @endforeach
                     </div>
-             
-            </div>
+                </div>
             </div>
         </div>
     </div>

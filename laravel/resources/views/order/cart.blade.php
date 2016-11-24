@@ -1,20 +1,22 @@
  <!-- Checkout / Billing Address -->
 <section class="checkout" style="margin-top:20px">
     <div class="container" style="padding: 0px;">
-
         <div class="row">
+            
             @if(session('success'))
                 <div class="alert alert-success">
                     {{session('success')}}
                 </div>
             @endif
+
             @if(session('fail'))
                 <div class="alert alert-danger">
                     {{session('fail')}}
                 </div>
             @endif
+
             <div class="span9">
-           
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="box" style="padding-top: 0px;">
                     <!-- Checkout content -->
                     <div id="tab-content">
@@ -35,21 +37,23 @@
                                                     <th class="col_qty text-right">Jumlah</th>
                                                     <th class="col_single text-right">Harga</th>
                                                     <th class="col_total text-right">Total</th>
-                                                    
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                
                                                 @foreach($data['cart'] as $product)                                 
                                                     <tr>
                                                         <td class="col_product text-left">
                                                             <h5>
-                                                                <a href="{{url ('detail/'.$product->id) }}">{{$product->name}}</a>
+                                                                <a href="{{ url('detail/'.$product->id) }}">{{$product->name}}</a>
                                                             </h5>
                                                         </td>
                                                         <td class="col_properties text-left">
+                                                            
                                                             @foreach( $product->options as $value)
                                                                 {{ucwords($value)}}&nbsp;
                                                             @endforeach
+
                                                         </td>
                                                         <td class="col_remove text-right">
                                                             <a href="javascript:void(0)" class="delete" name="{{$product->rowid}}">
@@ -58,19 +62,20 @@
                                                             </a>
                                                         </td>
                                                         <td class="col_qty text-right">
-                                                            <input type="text" name="quantity_{{$product->rowid}}" value="{{$product->qty}}" />
-                                                            <button class="btn btn-mini" type="submit">
-                                                                <span rel="tooltip" title="Perbaharui"><i class="fa fa-undo"></i></span>
-                                                            </button>
+                                                            <input type="text" id="quantity_{{$product->rowid}}" value="{{$product->qty}}" />
+                                                            <span rel="tooltip" title="Perbaharui"><button class="btn btn-mini quantity_update" type="button" id="{{$product->rowid}}">
+                                                                <i class="fa fa-undo"></i>
+                                                            </button></span>
                                                         </td>
                                                         <td class="col_single text-right">
                                                             <span class="single-price">Rp. {{ number_format($product->price, 0, ",", ".") }}</span>
                                                         </td>
                                                         <td class="col_total text-right">
-                                                            <span class="total-price">Rp. {{ number_format($product->subtotal, 0, ",", ".") }}</span>
+                                                            <span class="total-price" id="subtotal_{{$product->rowid}}">Rp. {{ number_format($product->subtotal, 0, ",", ".") }}</span>
                                                         </td>
                                                     </tr>
                                                 @endforeach
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -81,33 +86,40 @@
                     <!-- End id="checkout-content" -->
                     <!-- Checkout content -->
                     <div id="checkout-content">
-                        <form action="{{url('checkout')}}">
+                        <form action="{{url('checkout')}}" method="POST">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="box-header" style="background-color: #1abc9c;padding: 10px;">
                                 <h3 style="color: white">Alamat</h3>
                                 <h5 style="color: white">Alamat tujuan pengiriman</h5>
                             </div>
                             <div class="box-content">
+                                
                                 @if($data['address'])
                                     <?php $query = unserialize($data['address']->meta_value); ?>
                                     <select class="form-control" id="address_check" name="address_check">
                                         <option value="">--Silahkan Pilih--</option>
+                                        
                                         @foreach($query as $new => $value)
                                             <option value="{{$new}}">{{$value['nama']}} | {{$value['alamat']}} | {{$value['telepon']}}</option>
                                         @endforeach
+
                                     </select>
                                     <br>
                                     <div id="result_address" name="result_address"></div>
                                 @endif
+
                                 <table class="table table-responsive">
+                                        
                                         @if ($data['address']) 
                                             <?php $query = unserialize($data['address']->meta_value); ?>
-
                                             <!-- mengambil properti produk -->
                                             @foreach($data['cart'] as $product)
                                                 <?php $properties = array();?>
+                                                
                                                 @foreach( $product->options as $key => $value)
                                                     <?php $properties[$key] = $value;?>
                                                 @endforeach
+
                                                 <input type="hidden" id="properties_{{$product->rowid}}" name="properties_{{$product->rowid}}" value="{{serialize($properties)}}"></input>
                                             @endforeach
 
@@ -121,10 +133,12 @@
                                                 <td><button class="btn btn-mini btn-greensea" id="alamat_baru" name="alamat_baru" type="button">Alamat Baru</button></td>
                                             </tr>
                                         @endif
+
                                 </table>
                             </div>
                         </form>
                         <form id="checkout" name="checkout" action="{{url('checkout')}}" role="get">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="box-content" hidden="true" id="form_new_address">
                                 <div class="row-fluid">
                                     <div class="span6">
@@ -139,9 +153,11 @@
                                             <div class="controls">
                                                 <select class="span12" name="province" id="province" >
                                                     <option value="">-- Silahkan Pilih --</option>
+                                                    
                                                     @foreach($data['provinces'] as $province)
                                                         <option value="{{$province->id}}">{{$province->nama_province}}
                                                     @endforeach
+
                                                 </select>
                                             </div>
                                         </div>
@@ -191,14 +207,19 @@
                                         <i class="icon-chevron-left"></i>lanjut belanja
                                     </a>
                                 </div>
+                                
                                 @if(Cart::count())
+                                    
                                     @foreach($data['cart'] as $product)
                                         <?php $properties = array();?>
+                                        
                                         @foreach( $product->options as $key => $value)
                                             <?php $properties[$key] = $value;?>
                                         @endforeach
+
                                         <input type="hidden" id="properties_{{$product->rowid}}" name="properties_{{$product->rowid}}" value="{{serialize($properties)}}"></input>
                                     @endforeach
+
                                     <input type="hidden" class="form-control" id="coupon_code" name="coupon_code" value="{{session('coupon')}}">
                                     <input type="hidden" class="form-control" value="{{session('discount')}}" id="discount" name="discount">
                                     <input type="hidden" class="form-control" id="shipping_price_new" name="shipping_price_new">
@@ -211,6 +232,7 @@
                                         </button>
                                     </div>
                                 @endif
+
                             </div>
                         </form>                  
                     </div>  
@@ -234,6 +256,7 @@
                             @else
                                 <li>Diskon: <strong>Rp. {{ number_format(0, 0, ",", ".") }}</strong></li>
                             @endif
+
                                 <li>
                                     <div id="shipping" name="shipping">
                                         Biaya Kirim: <strong>Rp. -</strong>
@@ -275,18 +298,18 @@
                             <h3>Estimasi Biaya Pengiriman</h3>
                             <h5>Cek biaya pengiriman Anda disini</h5>
                         </div>
-                            <label for="coupon_code">Provinsi</label>
-                                <select class="form-control" name="province_check" id="province_check" >
-                                    <option value="">-- Silahkan Pilih --</option>
-                                    @foreach($data['provinces'] as $province)
-                                        <option value="{{$province->id}}">{{$province->nama_province}}
-                                    @endforeach
-                                </select>
-                            <label for="coupon_code">Kota/Kabupaten</label>
-                                <select class="form-control" name="city_check" id="city_check"></select>
-                                <div id='result_check'>
-                                    
-                                </div>
+                        <label for="coupon_code">Provinsi</label>
+                            <select class="form-control" name="province_check" id="province_check" >
+                                <option value="">-- Silahkan Pilih --</option>
+                                
+                                @foreach($data['provinces'] as $province)
+                                    <option value="{{$province->id}}">{{$province->nama_province}}
+                                @endforeach
+
+                            </select>
+                        <label for="coupon_code">Kota/Kabupaten</label>
+                        <select class="form-control" name="city_check" id="city_check"></select>
+                        <div id='result_check'></div>
                     </div>
                 </div>
             <!-- End class="coupon" -->               
@@ -297,10 +320,11 @@
 </section>
 <!-- End class="checkout" -->
 <script type="text/javascript">
-    $(document).ready(function()
-    {
+    $(document).ready(function(){
+
         $('a.delete').click(function(){
             var rowid = this.name;
+            
             $.ajax({
                 url: "{!! url('delete_order') !!}",
                 data: {rowid: rowid},
@@ -310,21 +334,40 @@
             });
         });
 
-        function addCommas(nStr)
-        {
+        function addCommas(nStr){
             nStr += '';
             x = nStr.split('.');
             x1 = x[0];
             x2 = x.length > 1 ? '.' + x[1] : '';
+
             var rgx = /(\d+)(\d{3})/;
+
             while (rgx.test(x1)) {
                 x1 = x1.replace(rgx, '$1' + '.' + '$2');
             }
             return x1 + x2;
         }
 
-        $('#alamat_baru').click(function()
-        {
+        $(".quantity_update").click(function(){
+            var rowid = this.id;
+            var quantity = $('#quantity_'+rowid).val();
+
+            if (quantity < 1) {
+                quantity = 1;
+                $('#quantity_'+rowid).val(1);
+            }
+
+            $.ajax({
+                url: "{!! url('update_order_quantity') !!}",
+                data: {rowid: rowid, quantity: quantity},
+                method:'POST',
+            }).done(function(data){
+               location.reload();
+            });
+
+        });
+
+        $('#alamat_baru').click(function(){
             if ($('#discount').val() != '') {
                 var discount = $('#discount').val();
                 var cart = $('#cart_total').val() - discount;
@@ -333,6 +376,7 @@
                 var cart = $('#cart_total').val();
                 var reset = addCommas(cart);
             }
+            
             $('#form_new_address').show('slow');
             $('#btn_new_checkout').show('slow');
             $('#total').html("Total: <strong>Rp. "+reset+"</strong>");
@@ -341,9 +385,9 @@
 
         });
 
-        $('#province').change(function()
-        {
+        $('#province').change(function(){
             var id = $('#province').val();
+            
             $.ajax({
                 url: "{!! url('konten_kota') !!}",
                 data: {id: id},
@@ -353,10 +397,10 @@
             });
         });
 
-        $('#city').change(function()
-        {
+        $('#city').change(function(){
             var id = $('#city').val();
             var weight = $('#weight_new').val();
+            
             $.ajax({
                 url: "{!! url('konten_kecamatan') !!}",
                 data: {id: id},
@@ -376,11 +420,11 @@
             });
         });
 
-        $('#province_check').change(function()
-        {
+        $('#province_check').change(function(){
             var id = $('#province_check').val();
             var cart = $('#cart_total').val();
             var value = $('#courier').val();
+            
             $.ajax({
                 url: "{!! url('konten_kota') !!}",
                 data: {id: id},
@@ -390,9 +434,9 @@
             });
         });
 
-        $('#city_check').change(function()
-        {
+        $('#city_check').change(function(){
             var id = $('#city_check').val();
+            
             $.ajax({
                 url: "{!! url('cek_ongkir') !!}",
                 data: {id: id},
@@ -402,13 +446,14 @@
             });
         });
 
-        $('#address_check').change(function()
-        {
+        $('#address_check').change(function(){
             var id = $('#address_check').val();
             var weight = $('#weight').val();
+            
             $('#result_address').hide('slow');
             $('#form_new_address').hide('slow');
             $('#btn_new_checkout').hide('slow');
+            
             $.ajax({
                 url: "{!! url('konten_alamat') !!}",
                 data: {id: id,weight: weight},
@@ -419,19 +464,21 @@
             });
         });
 
-        $('#courier').change(function()
-        {
+        $('#courier').change(function(){
             var courier = $(this).children(":selected").attr("id");
             var value = $(this).children(":selected").val();
-            var cost = addCommas(value);
             var cart = $('#cart_total_new').val();
             var discount = $('#discount').val();
+            var cost = addCommas(value);
+            
             if (discount == '') {
                 var total = parseInt(cart)+parseInt(value);
             }else{
                 var total = (parseInt(cart)+parseInt(value))-parseInt(discount);
             };
+            
             var result = addCommas(total);
+            
             $('#courier_check_new').val("JNE-"+courier);
             $('#shipping').html("Biaya Kirim: <strong>Rp. "+cost+"</strong>");
             $('#total').html("Total: <strong>Rp. "+result+"</strong>");

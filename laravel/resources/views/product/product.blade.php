@@ -36,12 +36,14 @@
         <div class="container" style="padding: 0px;">
             <div class="row">
                 <div class="span12">
+
                         @if($data['banner'])
                         <?php $banner = unserialize($data['banner']->meta_value);?>
                         <div class="col-lg-12" style="padding: 0px;margin: 0px;">
                             <img src="{{url('photo_banner/'.$banner['banner1'])}}" style="max-width: 100%; padding-bottom: 20px;">
                         </div>
                         @endif
+
                 </div>
                 <div class="span2">
                     <!-- Sidebar -->
@@ -53,19 +55,23 @@
                                         <a href="{{url('produk/'.$data['slugcategory']->slug)}}" title="Ready Stock">{{ucwords($data['slugcategory']->name)}}</a>
                                     </h3>
                                 </div>
+
                                 @if($data['slugcategory']->subcategories == "1")
                                     <?php $sub=$data['slugcategory']->subcategory; ?>
                                     <div class="category-list secondary">
+
                                     @foreach($sub as $subcategory)
                                         <li>
                                             <a href="{{ url('produk/'.$data['slugcategory']->slug.'/'.$subcategory->slug) }}" title="Shoes">
-                                                <span class="count">{{ $subcategory->total_product }} </span>
+                                                <span class="count">{{ $subcategory->is_publish }} </span>
                                                 {{ ucwords($subcategory->subname) }}               
                                             </a>
                                         </li>
                                     @endforeach
+
                                     </div>
                                 @endif
+
                             </div>
                         </div>
                         <!-- Price filter -->
@@ -91,9 +97,11 @@
                      <!-- End sidebar -->
                 </div>
                 <input type="hidden" value="{{$data['slugcategory']->id}}" id="slug_category"></input>
+                
                 @if($data['slugsubcategory'] != '')
                     <input type="hidden" value="{{$data['slugsubcategory']->id}}" id="slug_subcategory"></input>
                 @endif
+
                 <div class="span10">
                     <?php // ============================ Banner 1 ================================= ?>
                     <div class="col-lg-6" style="margin: 0px;padding: 0px;" >
@@ -116,6 +124,7 @@
     jQuery(document).ready(function(){
         var category_id = $('#slug_category').val();
         var subcategory_id = $('#slug_subcategory').val();
+        
         $.ajax({
             url: (subcategory_id == undefined) ? "{!! url('product_content') !!}" : "{!! url('subproduct_content') !!}" ,
             data: (subcategory_id == undefined) ? {
@@ -132,11 +141,12 @@
 
         $('#sort').change(function(){
             $('#content').css('display', 'none');
+            
             var sortby = this.value;
             var category_id = $('#slug_category').val();
             var subcategory_id = $('#slug_subcategory').val();
-            console.log(subcategory_id);
-             $.ajax({
+            
+            $.ajax({
                 url: "{!! url('sort_product') !!}",
                 data: (subcategory_id == undefined) ? {
                     sortby: sortby,
@@ -152,10 +162,6 @@
                 $('#content').fadeIn();
             });
         });
-
-
-
-        
     });  
 </script>
 

@@ -141,6 +141,7 @@ return [
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Skovmand\Mailchimp\MailchimpServiceProvider::class,
 
         /*
          * Application Service Providers...

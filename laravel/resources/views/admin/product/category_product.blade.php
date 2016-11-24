@@ -43,6 +43,22 @@
 <script>
       $(document).ready(function () {
         $("#productlist").DataTable();
+        // $("#productlist").DataTable({
+        //     processing: true,
+        //     serverSide: true,
+        //     bDestroy:true,
+        //     pagingType:"full_numbers",
+        //     pageLength: 10,
+        //     responsive: true,
+        //     ajax: { url:'{!! url("list_order") !!}', data:{order_status: order_status}},
+        //     columns: [
+        //         { data: 'id'},
+        //         { data: 'no_invoice', name: 'no_invoice'},
+        //         { data: 'order_status', name: 'order_status'},
+        //         { data: 'detail'},
+        //         { data: 'opt'},
+        //     ]
+        // });
         $("#color").focus(function(){
           $('#alert_variant').hide('slow'); 
         });
@@ -79,10 +95,6 @@
             });
           }
       });
-
-      // $('.active_product').click(function(){
-          
-      // });
 
       $('a#delete').click(function(){
         r = confirm("Are You Sure Want to Remove This Item?");

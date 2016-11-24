@@ -32,6 +32,27 @@
                         <th>Opsi</th>
                       </tr>
                     </thead>
+                    <tbody>
+                      @foreach($data['order'] as $order)
+                        <tr>
+                            @if($order->order_status == 'Lunas' && $order->no_resi == '')
+                              <td><input type="text" class="col-sm-12 resi" id="{{$order->id}}" name="{{$order->id}}"></td>
+                            @elseif($order->order_status == 'Dikirim')
+                              <td><input type="text" class="col-sm-12 resi" id="{{$order->id}}" name="{{$order->id}}" value="{{$order->no_resi}}" disabled="true"></td>
+                            @else
+                              <td><input type="text" class="col-sm-12 resi" disabled="true"></input></td>
+                            @endif
+                            <td>{{$order->no_invoice}}</td>
+                            <td>{{$order->order_status}}</td>
+                            <td><button class="btn btn-primary btn-xs detail" id="{{$order->id}}">Lihat</button></td>
+                            @if($order->order_status == 'Dikirim')
+                              <td><button class="btn btn-info btn-xs" disabled="true">Selesai</button></td>
+                            @else
+                              <td><button class="btn btn-success btn-xs send" id="send_{{$order->id}}">Kirim</button></td>
+                            @endif
+                        </tr>
+                      @endforeach
+                    </tbody>
                   </table>
                   <?php // ======================== END Data Table ================================ ?>
                   <div id="modaldetail"></div>
@@ -42,42 +63,8 @@
 
 @section('script')
 	<script>
-      $(document).ready(function(){
-        // $("#order_table").DataTable();
-        $('#order_table').DataTable({
-            processing: true,
-            serverSide: true,
-            bDestroy:true,
-            pagingType:"full_numbers",
-            pageLength: 10,
-            responsive: true,
-            ajax: { url:'{!! url("list_order") !!}'},
-            columns: [
-                { 
-                  data: 'id',
-                  className: "center",
-                  mRender: function (data) {
-                  return '<input type="text" class="col-sm-12 resi" id="'+data+'" name="'+data+'">';
-                  },
-                },
-                { data: 'no_invoice', name: 'no_invoice'},
-                { data: 'order_status', name: 'order_status'},
-                { 
-                  data: 'id',
-                  className: "center",
-                  mRender: function (data) {
-                  return '<button class="btn btn-primary btn-xs detail" id="'+data+'">Lihat</button>';
-                  },
-                },
-                { 
-                  data: 'id',
-                  className: "center",
-                  mRender: function (data) {
-                  return '<button class="btn btn-success btn-xs send" id="send_'+data+'">Kirim</button>';
-                  },
-                },
-            ]
-        });
+      $(function () {
+        $("#order_table").DataTable();
       });
 
       $('.detail').click(function(){

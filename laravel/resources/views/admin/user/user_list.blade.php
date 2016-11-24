@@ -23,7 +23,6 @@
               	  <table id="userlist_table" class="table table-bordered table-hover">
                     <thead>
                       <tr>
-                        <th>No</th>
                         <th>Email</th>
                         <th>First Name</th>
                         <th>Last Name</th>
@@ -32,22 +31,8 @@
                         <th>Last Login</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <?php $i=1; foreach($data['user'] as $user): ?> 
-                      <tr>
-                        <td><?= $i ?></td>
-                        <td><?= $user->email ?></td>
-                        <td><?= $user->first_name ?></td>
-                        <td><?= $user->last_name ?></td>
-                        <td><?= $user->phone ?></td>
-                        <td><?= $user->status ?></td>
-                        <td><?= $user->last_login ?></td>
-                      </tr>
-                      <?php $i++; endforeach; ?>
-                    </tbody>
                     <tfoot>
                       <tr>
-                        <th>No</th>
                         <th>Email</th>
                         <th>First Name</th>
                         <th>Last Name</th>
@@ -65,8 +50,24 @@
 
 @section('script')
 	<script>
-      $(function () {
-        $("#userlist_table").DataTable();
+      $(document).ready(function () {
+        $('#userlist_table').DataTable({
+            processing: true,
+            serverSide: true,
+            bDestroy:true,
+            pagingType:"full_numbers",
+            pageLength: 10,
+            responsive: true,
+            ajax: { url:'{!! url("get_list_user") !!}'},
+            columns: [
+                { data: 'email', name: 'email'},
+                { data: 'first_name', name: 'first_name'},
+                { data: 'last_name', name: 'last_name'},
+                { data: 'phone', name: 'phone'},
+                { data: 'status', name: 'status'},
+                { data: 'last_login', name: 'last_login'},
+            ]
+          });
       });
     </script>
 @stop

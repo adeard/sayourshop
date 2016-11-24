@@ -1,8 +1,6 @@
 <!-- Content section -->		
-<section class="main">                
-    <!-- Reset password -->
+<section class="main">
     <section class="check_order">
-        
         <div class="container">
             <div class="row">
                 <div class="span6 offset3">
@@ -37,7 +35,6 @@
                 </div>
             </div>
         </div>	
-    </section>                
-    <!-- End Reset password -->            
+    </section>           
 </section>
 <!-- End class="main" -->
