@@ -412,7 +412,7 @@
 			$.ajax({
 				url: "{!! url('update_order') !!}",
 				data: { user_id:user_id },
-				method:'POST',
+				method:'GET',
 			}).done(function(data){
 				$('#order').html(data);
 			});

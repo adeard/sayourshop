@@ -279,7 +279,7 @@ class UserController extends HomeController
 		$this->data['address']		= UserMeta::where('user_id', $this->data['user']->id)->where('meta_key','address')->first();	
 		$this->data['wish']			= UserMeta::where('user_id', $this->data['user']->id)->where('meta_key','wishlist')->first();
 		$this->data['wishlist'] 	= array();
-		$this->data['order']		= Order::where('user_id', $this->data['user']->id)->orderBy('created_at','desc')->get();
+		$this->data['order']		= Order::where('user_id', $this->data['user']->id)->orderBy('order_date','desc')->get();
 
 		if (empty($this->data['wish'])) {
 			$unserialize = unserialize($this->data['wish']->meta_value);
@@ -589,7 +589,7 @@ class UserController extends HomeController
 
     public function update_order(Request $request)
     {
-    	$this->data['order']		= Order::where('user_id', $request->user_id)->orderBy('created_at','desc')->get();
+    	$this->data['order']		= Order::where('user_id', $request->user_id)->orderBy('order_date', 'DESC')->get();
     	
     	return view('user/update_order')->with('data', $this->data);
     }

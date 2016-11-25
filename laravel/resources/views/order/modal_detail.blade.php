@@ -33,7 +33,7 @@
               </tr>
               <tr>
                 <th>Tanggal Pemesanan</th>
-                <td>: {{ date_format(date_create($data['detail'][0]->order->created_at), "d M Y")}}</td>
+                <td>: {{ date_format(date_create($data['detail'][0]->order->order_date), "d M Y")}}</td>
               </tr>
               <tr>
                 <th>Status</th>

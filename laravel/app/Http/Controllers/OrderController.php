@@ -489,7 +489,8 @@ class OrderController extends HomeController
 							  		->nest('content', 'order/user_check_order', array('data' => $this->data));
 	}
 
-	public function get_cost($id){
+	public function get_cost($id)
+	{
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(

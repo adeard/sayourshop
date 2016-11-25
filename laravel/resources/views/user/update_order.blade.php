@@ -17,7 +17,7 @@
 
 	    <tr>
 	    	<td id="inv_{{$value->id}}" name="inv_{{$value->id}}">{{$value->no_invoice}}</td>
-			<td>{{ date_format(date_create($value->created_at), "d M Y")}}</td>
+			<td>{{ date_format(date_create($value->order_date), "d M Y")}}</td>
 			<td><button type="button" id="detail_{{$value->id}}" name="detail_{{$value->id}}" class="btn btn-mini btn-belizehole detail">Detail</button> </td>
 			<td name="total_price" id="total_price">Rp. {{ number_format($value->total_price, 0, ",", ".") }}</td>
 			<td>{{$value->order_status}}</td>
