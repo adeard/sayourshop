@@ -300,29 +300,28 @@ class UserController extends HomeController
 	{
 		$id = Sentinel::getUser();
 	  	$file = array('image' => Input::file('image'));
+
 	  	$rules = array('image' => 'required',); //mimes:jpeg,bmp,png and for max size max:10000
 	  	$validator = Validator::make($file, $rules);
-
 		if ($validator->fails()) {
 	    	return redirect('dashboard')->with('failed','Upload Gagal');
 	  	}
 
-		if (Input::file('image')->isValid()) {
-			File::delete('photo_profile/'.$id->image);//hapus foto lama
-			$destinationPath = storage_path('photo_profile'); // upload path
-		    $extension = Input::file('image')->getClientOriginalExtension(); // getting image extension
-			$fileName = $id->id.'.'.$extension; // renameing image
-			//insert DB
-			$id->image = $fileName;
-			$id->save(); 
-			//end insert
-			Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
-
-		    return redirect('dashboard')->with('completed','Upload berhasil');
-		} else {
+		if (!Input::file('image')->isValid()) {
 			return redirect('dashboard')->with('failed','Upload Gagal');
 		}
 
+		File::delete('photo_profile/'.$id->image);//hapus foto lama
+		$destinationPath = storage_path('photo_profile'); // upload path
+		$extension = Input::file('image')->getClientOriginalExtension(); // getting image extension
+		$fileName = $id->id.'.'.$extension; // renameing image
+		Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
+		//insert DB
+		$id->image = $fileName;
+		$id->save(); 
+		//end insert
+		
+		return redirect('dashboard')->with('completed','Upload berhasil');
 	}
 
 	public function login(Request $request)
@@ -333,7 +332,6 @@ class UserController extends HomeController
 			);
 
 		$validator 	= Validator::make($request->all(), $rules);
-
 		if ($validator->fails()) {
 			return redirect('login_form')->with('error','Silahkan isi form yang tersedia');
 		}
@@ -344,12 +342,8 @@ class UserController extends HomeController
 		    );
 
 		$user = Sentinel::findByCredentials($credentials); //return data" user
-		if ($user == "") { 
-			return redirect('login_form')->with('error','Email/Password Anda salah');
-		}
-		
 		$check_user = Sentinel::validateCredentials($user, $credentials); //return boolean 1/0
-		if ($check_user == "") { 
+		if ($user == "" || $check_user == "") { 
 			return redirect('login_form')->with('error','Email/Password Anda salah');
 		}
 			
@@ -381,12 +375,8 @@ class UserController extends HomeController
 		    );
 		
 		$user = Sentinel::findByCredentials($credentials);
-		if ($user == "") { //cek akun
-			return redirect('master/login')->with('error','Email/Password Anda salah');
-		}
-			
 		$check_user = Sentinel::validateCredentials($user, $credentials); //return boolean 1/0
-		if ($check_user == "") { 
+		if ($user == "" || $check_user == "") { //cek akun
 			return redirect('master/login')->with('error','Email/Password Anda salah');
 		}
 		
@@ -396,6 +386,7 @@ class UserController extends HomeController
 		}
 		
 		Sentinel::login($user);
+
 		return redirect('/master');
 	}
 
@@ -600,10 +591,10 @@ class UserController extends HomeController
     	$product = Product::where('id', $request->product_id)->first();
     	
     	$ask = New Ask;
-    	if ($user->first_name != '') {
-    		$ask->name = ucwords($user->first_name)." ".ucwords($user->last_name);
+    	if ($user->fullname != '') {
+    		$ask->name = ucwords($user->fullname);
     	} else {
-    		$ask->name = "guest";
+    		$ask->name = "Guest";
     	}
 
 		$ask->email = $request->email;

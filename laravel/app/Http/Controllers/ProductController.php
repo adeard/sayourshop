@@ -304,17 +304,16 @@ class ProductController extends HomeController
 		$wishlist = UserMeta::where('meta_key','wishlist')
 							->where('user_id', $user->id)
 							->first();
-		
-		if ($wishlist == '') {
-			$wish = array();
-			array_push($wish, $product->slug);
+		$wish = array();
+		if ($wishlist != '') {
+			$wish = unserialize($wishlist->meta_value);
+		}else{
 			$wishlist = new UserMeta;
 			$wishlist->user_id = $user->id;
 			$wishlist->meta_key = 'wishlist';
-		}else{
-			$wish = unserialize($wishlist->meta_value);
-			array_push($wish, $product->slug);
 		}
+
+		array_push($wish, $product->slug);
 
 		$wishlist->meta_value = serialize($wish);
 		$wishlist->save();

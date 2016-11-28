@@ -18,8 +18,29 @@ class CouponController extends AdminController
 	
 	public function list_coupon()
 	{
-		$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins', 'dataTables_css', 'datepicker', 'daterangepicker']);
-		$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick', 'dataTables_js', 'dataTables_bootsjs', 'datepicker', 'daterangepicker']);
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins', 
+			'dataTables_css', 
+			'datepicker', 
+			'daterangepicker'
+		];
+
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick', 
+			'dataTables_js', 
+			'dataTables_bootsjs', 
+			'datepicker', 
+			'daterangepicker'
+		];
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['title']		= 'Coupon | List';
 		$this->data['kupon']		= Option::where('meta_key','voucher')->get();
 
@@ -50,16 +71,14 @@ class CouponController extends AdminController
 				$sum_array = array_push($unserialize, $voucher);
 				$serialize = serialize($unserialize);
 				$total = Option::where('meta_key','voucher')->update(['meta_value' => $serialize]);
-
-				return redirect('master/setting/coupon')->with('success','Code Voucher berhasil ditambahkan');
 			}else{
 				$voc = new Option;
 				$voc->meta_key = "voucher";
 				$voc->meta_value = serialize(array($voucher));
 				$voc->save();
-
-				return redirect('master/setting/coupon')->with('success','Code Voucher berhasil ditambahkan');
 			}
+
+			return redirect('master/setting/coupon')->with('success','Code Voucher berhasil ditambahkan');
 		}catch(Exception $e){
 			return 'error';
 		}
@@ -94,7 +113,9 @@ class CouponController extends AdminController
 	{
 		$voc = Option::where('meta_key','voucher')->first();
 		$a = unserialize($voc->meta_value);
+		
 		unset($a[$id]);
+		
 		$reindex = array_values($a);
 		$serialize = serialize($reindex);
 		Option::where('meta_key','voucher')->update(['meta_value' => $serialize]);

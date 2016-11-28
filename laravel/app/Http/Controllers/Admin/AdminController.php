@@ -15,6 +15,7 @@ use App\Http\Models\Product;
 use App\Http\Models\Subcategory;
 use App\Http\Models\Distributor;
 use App\Http\Models\Order;
+use App\Http\Models\Option;
 use Yajra\Datatables\Datatables;
 
 use DB, Mail, Sentinel, Validator, Activation, Storage, Input, Session, Redirect, File, Highchart;
@@ -32,13 +33,42 @@ class AdminController extends Controller
 
     public function home()
 	{
-		$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins', 'icheck', 'morris_chart', 'jvectormap', 'dataTables_min']);
-		$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick', 'morris_chart_js', 'sparkline', 'jvectormap_js', 'jvectormap_world_js', 'knob', 'dataTables_js', 'highchart', 'export-highchart']);
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins', 
+			'icheck', 
+			'morris_chart', 
+			'jvectormap', 
+			'dataTables_min'
+		];
+
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick', 
+			'morris_chart_js', 
+			'sparkline', 
+			'jvectormap_js', 
+			'jvectormap_world_js', 
+			'knob', 
+			'dataTables_js', 
+			'highchart', 
+			'export-highchart'
+		];
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['title']		= 'SayourShop | Master';
 		$this->data['new']			= Order::where('order_status', 'Menunggu Pembayaran')->get();
 		$this->data['has_paid']		= Order::where('order_status', 'Telah Dibayar')->get();
 		$this->data['paid'] 		= Order::where('order_status', 'Lunas')->get();
 		$this->data['send']			= Order::where('order_status', 'Dikirim')->get();
+		$this->data['visitors']		= Option::where('meta_key', 'visitors')->first();		
+		$this->data['users']		= User::get();
 
 	    return view('admin_layout')->with('data', $this->data)
 								  ->nest('content', 'admin/home', array('data' => $this->data));
@@ -46,8 +76,26 @@ class AdminController extends Controller
 
 	public function list_user()
 	{
-		$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins', 'dataTables_css']);
-		$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick', 'dataTables_js', 'dataTables_bootsjs']);
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins', 
+			'dataTables_css'
+		];
+
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick', 
+			'dataTables_js', 
+			'dataTables_bootsjs'
+		];
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['title']		= 'User | List';
 
 	    return view('admin_layout')->with('data', $this->data)
@@ -63,8 +111,26 @@ class AdminController extends Controller
 
 	public function list_product()
 	{
-		$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins', 'dataTables_css']);
-		$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick', 'dataTables_js', 'dataTables_bootsjs']);
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins', 
+			'dataTables_css'
+		];
+
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick', 
+			'dataTables_js', 
+			'dataTables_bootsjs'
+		];
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['title']		= 'Product | List';
 		$this->data['category']		= Category::get();
 		$this->data['distributor']	= Distributor::get();
@@ -75,8 +141,26 @@ class AdminController extends Controller
 
 	public function list_category()
 	{
-		$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins', 'dataTables_css']);
-		$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick', 'dataTables_js', 'dataTables_bootsjs']);
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins', 
+			'dataTables_css'
+		];
+
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick', 
+			'dataTables_js', 
+			'dataTables_bootsjs'
+		];
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['title']		= 'Category | List';
 		$this->data['category']		= Category::all();
 
@@ -96,8 +180,26 @@ class AdminController extends Controller
 
 	public function list_subcategory()
 	{
-		$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins', 'dataTables_css']);
-		$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick', 'dataTables_js', 'dataTables_bootsjs']);
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins', 
+			'dataTables_css'
+		];
+
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick', 
+			'dataTables_js', 
+			'dataTables_bootsjs'
+		];
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['title']		= 'Subcategory | List';
 		$this->data['category']		= Category::all();
 		$this->data['subcategory']	= Subcategory::all();
@@ -108,8 +210,26 @@ class AdminController extends Controller
 
 	public function list_message()
 	{
-		$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins', 'dataTables_css']);
-		$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick', 'dataTables_js', 'dataTables_bootsjs']);
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins', 
+			'dataTables_css'
+		];
+
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick', 
+			'dataTables_js', 
+			'dataTables_bootsjs'
+		];
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['title']		= 'Mailbox';
 		$this->data['message']		= Ask::orderBy('id', 'DESC')->simplePaginate(25);
 		$this->data['total_message']= new Ask;
@@ -122,31 +242,61 @@ class AdminController extends Controller
 
 	public function view_category($id)
 	{
-		$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins']);
-		$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick']);
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins'
+		];
+
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick'
+		];
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['title']		= 'Category | View';
 		
-		if(Category::find($id)){
-			$this->data['category']		= Category::find($id);
-		}else{
+		if(!Category::find($id)){
 			return redirect('master/setting/category/list')->with('error', 'Data tidak ada');
 		}
-
+		
+		$this->data['category']		= Category::find($id);
+		
 	    return view('admin_layout')->with('data', $this->data)
 								  ->nest('content', 'category/view', array('data' => $this->data));
 	}
 
 	public function view_subcategory($id)
 	{
-		$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins']);
-		$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick']);
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins'
+		];
+
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick'
+		];
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['title']		= 'Subcategory | View';
 		
-		if(Subcategory::find($id)){
-			$this->data['category']		= Subcategory::find($id);
-		}else{
+		if(!Subcategory::find($id)){
 			return redirect('master/setting/subcategory/list')->with('error', 'Data tidak ada');
 		}
+		
+		$this->data['category']		= Subcategory::find($id);
 
 	    return view('admin_layout')->with('data', $this->data)
 								  ->nest('content', 'subcategory/view', array('data' => $this->data));
@@ -154,18 +304,35 @@ class AdminController extends Controller
 
 	public function view_message($id)
 	{
-		$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins', 'wysihtml']);
-		$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js','wysihtml', 'slimscroll', 'fastclick' ]);
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins', 
+			'wysihtml'
+		];
+
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js',
+			'wysihtml', 
+			'slimscroll', 
+			'fastclick'
+		];
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['title']		= 'Message | View';
 		
-		if(Ask::find($id)){
-			$this->data['message']	= Ask::find($id);
-			$message = Ask::find($id);
-			$message->status = 1;
-			$message->save();
-		}else{
+		if(!Ask::find($id)){
 			return redirect('master/message/list')->with('error', 'Data tidak ada');;
 		}
+
+		$this->data['message']	= Ask::find($id);
+		$message = Ask::find($id);
+		$message->status = 1;
+		$message->save();
 
 	    return view('admin_layout')->with('data', $this->data)
 								  ->nest('content', 'admin/message/view', array('data' => $this->data));
@@ -178,8 +345,23 @@ class AdminController extends Controller
 		if($request->all()){
 			echo "Horeeeeee";
 		}else{
-			$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins']);
-			$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick']);
+			$css_assets = [
+				'admin_bootstrap', 
+				'admin_css', 
+				'font-awesome', 
+				'skins'
+			];
+
+			$js_assets = [
+				'jquery', 
+				'admin_js', 
+				'admin_bootstrap-js', 
+				'slimscroll', 
+				'fastclick'
+			];
+
+			$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+			$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 			$this->data['title']		= 'User | Create';
 
 		    return view('admin_layout')->with('data', $this->data)
@@ -194,18 +376,16 @@ class AdminController extends Controller
 			'slug' => 'required', 
 		);
 		$validator = Validator::make($request->all(), $rules);
-
-		if (!$validator->fails()) {
-	    	$category = New Category;
-	    	$category->name =  $request->input('name');
-	    	$category->slug =  $request->input('slug');
-	    	$category->save();
-
-	    	return redirect('master/category/list');
-		}else{
+		if ($validator->fails()) {
 			return redirect('master/category/create')->with('error', 'Terdapat form kosong');
 		}
 
+	    $category = New Category;
+	    $category->name =  $request->input('name');
+	    $category->slug =  $request->input('slug');
+	    $category->save();
+
+	    return redirect('master/category/list');
 	}
 
 	public function add_subcategory(Request $request)
@@ -216,98 +396,121 @@ class AdminController extends Controller
 			'slug' => 'required', 
 			);
 		$validator = Validator::make($request->all(), $rules);
-
-		if (!$validator->fails()) {
-	    	$category = New Subcategory;
-	    	$category->subname = $request->input('subname');
-	    	$category->category_id = $request->input('category');
-	    	$category->slug = $request->input('slug');
-	    	$category->properties = $request->input('properties');
-	    	$category->save();
-
-	    	return redirect('master/subcategory/list');
-		}else{
+		if ($validator->fails()) {
 			return redirect('master/subcategory/create')->with('error', 'Terdapat form kosong');
 		}
 
+	    $category = New Subcategory;
+	    $category->subname = $request->input('subname');
+	    $category->category_id = $request->input('category');
+	    $category->slug = $request->input('slug');
+	    $category->properties = $request->input('properties');
+	    $category->save();
+
+	    return redirect('master/subcategory/list');
 	}
 
 	// ========== EDIT ============
 
 	public function edit_category($id, Request $request)
 	{
-		if(Category::find($id)){
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins'
+		];
 
-			if($request->all()){
-				$rules = array(
-					'name' => 'required',
-					'slug' => 'required', 
-					);
-				$validator = Validator::make($request->all(), $rules);
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick'
+		];
 
-				if (!$validator->fails()) {
-					$category = Category::find($id);
-					$category->name = $request->input('name');
-					$category->slug = str_replace(" ", "-", $request->input('name'));
-
-					if($category->save()){
-						return redirect('master/setting/category/list');
-					}
-
-				}else{
-					return redirect('master/category/edit/'.$id)->with('error', 'Terdapat form kosong');
-				}
-
-			}else{
-				$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins']);
-				$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick']);
-				$this->data['title']		= 'Category | Edit';
-				$this->data['category']		= Category::find($id);
-			    return view('admin_layout')->with('data', $this->data)
-										  ->nest('content', 'category/form', array('data' => $this->data));
-			}
-
-		}else{
+		if(!Category::find($id)) {
 			return redirect('master/category/list');
 		}
+
+		if($request->all()) {
+			$rules = array(
+				'name' => 'required',
+				'slug' => 'required', 
+				);
+			$validator = Validator::make($request->all(), $rules);
+			if ($validator->fails()) {
+				return redirect('master/category/edit/'.$id)->with('error', 'Terdapat form kosong');
+			}
+
+			$category = Category::find($id);
+			$category->name = $request->input('name');
+			$category->slug = str_replace(" ", "-", $request->input('name'));
+			$category->save();
+			
+			return redirect('master/setting/category/list');
+		}
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
+		$this->data['title']		= 'Category | Edit';
+		$this->data['category']		= Category::find($id);
+
+		return view('admin_layout')->with('data', $this->data)
+								  ->nest('content', 'category/form', array('data' => $this->data));
 	}
 
 	public function edit_subcategory($id, Request $request)
 	{
-		if(Subcategory::find($id)){
-			if($request->all()){
-				$rules = array(
-					'subname' => 'required',
-					'category' => 'required',
-					'slug' => 'required', 
-					);
-				$validator = Validator::make($request->all(), $rules);
-				if (!$validator->fails()) {
-					$category = Subcategory::find($id);
-					$category->subname = $request->input('subname');
-			    	$category->category_id = $request->input('category');
-			    	$category->slug = $request->input('slug');
-			    	$category->properties = $request->input('properties');
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins'
+		];
 
-					if($category->save()){
-						return redirect('master/subcategory/list');
-					}
-				}else{
-					return redirect('master/subcategory/edit/'.$id)->with('error', 'Terdapat form kosong');
-				}
-			}else{
-				$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins']);
-				$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick']);
-				$this->data['title']		= 'Subcategory | Edit';
-				$this->data['category']		= Subcategory::find($id);
-				$this->data['category_list']= [' - Select - '] + Category::lists('name', 'id')->all();
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick'
+		];
 
-			    return view('admin_layout')->with('data', $this->data)
-										  ->nest('content', 'subcategory/form', array('data' => $this->data));
-			}
-		}else{
+		if(!Subcategory::find($id)) {
 			return redirect('master/subcategory/list');
 		}
+
+		if($request->all()) {
+			$rules = array(
+				'subname' => 'required',
+				'category' => 'required',
+				'slug' => 'required', 
+				);
+			$validator = Validator::make($request->all(), $rules);
+			if ($validator->fails()) {
+				return redirect('master/subcategory/edit/'.$id)->with('error', 'Terdapat form kosong');
+			}
+
+			$category = Subcategory::find($id);
+			$category->subname = $request->input('subname');
+		    $category->category_id = $request->input('category');
+		    $category->slug = $request->input('slug');
+		    $category->properties = $request->input('properties');
+		    $category->save();
+			
+			return redirect('master/subcategory/list');
+		}else{
+			$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+			$this->data['js_assets'] 	= Assets::load('js', $js_assets);
+			$this->data['title']		= 'Subcategory | Edit';
+			$this->data['category']		= Subcategory::find($id);
+			$this->data['category_list']= [' - Select - '] + Category::lists('name', 'id')->all();
+
+		    return view('admin_layout')->with('data', $this->data)
+									  ->nest('content', 'subcategory/form', array('data' => $this->data));
+		}
+		
 	}
 
 	// ========== DELETE ============
@@ -329,22 +532,22 @@ class AdminController extends Controller
 	public function delete_message($id)
 	{
 		$message = Ask::find($id);
-
-		if(!$message){
+		if(!$message) {
 			return redirect('master/message/list')->with('error', 'Data tidak ada');
 		}
 		
-		if($message->status == 0){
+		if($message->status == 0) {
 			return redirect('master/message/list')->with('error', 'Tidak dapat menghapus pesan yang belum dibaca');
-		}else{
-			$message->delete();
-
-			return redirect('master/message/list')->with('success', 'Pesan telah dihapus');
 		}
+
+		$message->delete();
+
+		return redirect('master/message/list')->with('success', 'Pesan telah dihapus');	
 	}
 
 	//mail
-	public function mail_reply(){
+	public function mail_reply()
+	{
 		$data['email'] = $_POST['email'];
 		$data['subject'] = $_POST['subject'];
 		$data['message'] = $_POST['message'];

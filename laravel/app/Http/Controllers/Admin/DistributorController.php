@@ -20,8 +20,30 @@ class DistributorController extends AdminController
 	
 	public function list_distributor()
 	{
-		$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins', 'dataTables_css', 'datepicker', 'daterangepicker']);
-		$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick', 'dataTables_js', 'dataTables_bootsjs', 'datepicker', 'daterangepicker']);
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins', 
+			'dataTables_css', 
+			'datepicker', 
+			'daterangepicker'
+		];
+
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick', 
+			'dataTables_js', 
+			'dataTables_bootsjs', 
+			'datepicker', 
+			'daterangepicker'
+		];
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['title']		= 'Distributor | List';
 
 	    return view('admin_layout')->with('data', $this->data)
@@ -43,17 +65,36 @@ class DistributorController extends AdminController
 
 	public function view($id)
 	{
-		$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins', 'dataTables_css', 'ionicons']);
-		$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick', 'dataTables_js', 'dataTables_bootsjs']);
-		$this->data['title']		= 'Distributor | View';
-
-		if(Distributor::find($id)){
-			$this->data['distributor']		= Distributor::find($id);
-			$this->data['category']			= Category::get();
-			$this->data['product'] 			= count(Product::where('distributor_id', $id)->get());
-		}else{
+		if(!Distributor::find($id)){
 			return redirect('master/distributor/list');
 		}
+
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins', 
+			'dataTables_css', 
+			'ionicons'
+		];
+
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick', 
+			'dataTables_js', 
+			'dataTables_bootsjs'
+		];
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
+		$this->data['title']		= 'Distributor | View';
+		$this->data['distributor']	= Distributor::find($id);
+		$this->data['category']		= Category::get();
+		$this->data['product'] 		= count(Product::where('distributor_id', $id)->get());
+		
 
 	    return view('admin_layout')->with('data', $this->data)
 								  ->nest('content', 'admin/distributor/view', array('data' => $this->data));
@@ -67,71 +108,92 @@ class DistributorController extends AdminController
 				'email' => 'email',
 				);
 			$validator = Validator::make($request->all(), $rules);
-
-			if (!$validator->fails()) {
-				$distributor = New Distributor;
-				$distributor->name = $request->input('name');
-				$distributor->email = $request->input('email');
-				$distributor->address = $request->input('address');
-				$distributor->phone = $request->input('phone');
-
-				if($distributor->save()){
-					return redirect('master/distributor/list');
-				}
-
-			}else{
+			if ($validator->fails()) {
 				return redirect('master/distributor/create')->with('error', 'Terdapat form kosong');
 			}
 
-		}else{
-			$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins']);
-			$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick']);
-			$this->data['title']		= 'Distributor | Create';
-
-		    return view('admin_layout')->with('data', $this->data)
-									  ->nest('content', 'admin/distributor/form', array('data' => $this->data));
+			$distributor = New Distributor;
+			$distributor->name = $request->input('name');
+			$distributor->email = $request->input('email');
+			$distributor->address = $request->input('address');
+			$distributor->phone = $request->input('phone');
+			$distributor->save();
+			
+			return redirect('master/distributor/list');
 		}
+
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins'
+		];
+
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick'
+		];
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
+		$this->data['title']		= 'Distributor | Create';
+
+		return view('admin_layout')->with('data', $this->data)
+								  ->nest('content', 'admin/distributor/form', array('data' => $this->data));
 	}
 
 	public function edit($id, Request $request)
 	{
-		if(Distributor::find($id)){
-
-			if($request->all()){
-				$rules = array(
-					'name' => 'required',
-					'email' => 'email',
-					);
-				$validator = Validator::make($request->all(), $rules);
-
-				if (!$validator->fails()) {
-					$distributor =Distributor::find($id);
-					$distributor->name = $request->input('name');
-					$distributor->email = $request->input('email');
-					$distributor->address = $request->input('address');
-					$distributor->phone = $request->input('phone');
-
-					if($distributor->save()){
-						return redirect('master/distributor/list');
-					}
-
-				}else{
-					return redirect('master/distributor/edit/'.$id)->with('error', 'Terdapat form kosong');
-				}
-
-			}else{
-				$this->data['css_assets'] 	= Assets::load('css', ['admin_bootstrap', 'admin_css', 'font-awesome', 'skins']);
-				$this->data['js_assets'] 	= Assets::load('js', ['jquery', 'admin_js', 'admin_bootstrap-js', 'slimscroll', 'fastclick']);
-				$this->data['title']		= 'Distributor | Edit';
-				$this->data['distributor']	= Distributor::find($id);
-
-			    return view('admin_layout')->with('data', $this->data)
-										  ->nest('content', 'admin/distributor/form', array('data' => $this->data));
-			}
-
-		}else{
+		if(!Distributor::find($id)){
 			return redirect('master/distributor/list');
 		}
+
+		if($request->all()){
+			$rules = array(
+				'name' => 'required',
+				'email' => 'email',
+				);
+			$validator = Validator::make($request->all(), $rules);
+			if ($validator->fails()) {
+				return redirect('master/distributor/edit/'.$id)->with('error', 'Terdapat form kosong');
+			}
+
+			$distributor =Distributor::find($id);
+			$distributor->name = $request->input('name');
+			$distributor->email = $request->input('email');
+			$distributor->address = $request->input('address');
+			$distributor->phone = $request->input('phone');
+			$distributor->save();
+
+			return redirect('master/distributor/list');
+		}
+
+		$css_assets = [
+			'admin_bootstrap', 
+			'admin_css', 
+			'font-awesome', 
+			'skins'
+		];
+
+		$js_assets = [
+			'jquery', 
+			'admin_js', 
+			'admin_bootstrap-js', 
+			'slimscroll', 
+			'fastclick'
+		];
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
+		$this->data['title']		= 'Distributor | Edit';
+		$this->data['distributor']	= Distributor::find($id);
+
+		return view('admin_layout')->with('data', $this->data)
+								  ->nest('content', 'admin/distributor/form', array('data' => $this->data));
+		
 	}
 
 	public function delete($id)
@@ -139,10 +201,8 @@ class DistributorController extends AdminController
 		$products = Product::where('distributor_id', $id)->where('status', 'publish')->get();
 
 		if (count($products) > 0) {
-
 			foreach ($products as $product) {
 				$order = OrderDetail::where('product_id', $product->id)->where('review', '')->first();
-				
 				if ($order != '') {
 					return redirect('master/distributor/list')->with('error', 'Maaf masih terdapat order dari produk distributor yang belum selesai');
 				}
