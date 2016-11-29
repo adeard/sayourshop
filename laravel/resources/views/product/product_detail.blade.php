@@ -23,10 +23,10 @@
                                     $image = unserialize($data['product']->image);
                                 ?>
 
-                                <div class="primary">
+                                <div class="primary" style="text-align: center;">
                                     <img src="{{url('photo_product/'.$image[0])}}" data-zoom-image="{{url('photo_product/'.$image[0])}}" alt="Chaser Overalls" style="max-width:100%;position:relative!IMPORTANT;" />
                                 </div>
-                                <div class="thumbs" id="gallery" align="center">
+                                <div class="thumbs" id="gallery" align="center" style="text-align: center">
                                     <ul class="thumbs-list">
 
                                         <?php if($image == null): else: ?>

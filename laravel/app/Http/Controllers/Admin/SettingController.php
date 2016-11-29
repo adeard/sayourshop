@@ -287,28 +287,9 @@ class SettingController extends AdminController
 		    		array_push($unserialize['slider1'], $filename);
 		    	};
 
-		    }elseif($key == 'slider2') {
-		    	$img->resize(266,null,function ($constraint) {$constraint->aspectRatio();});
-
-		    	if ($unserialize['slider2'] == '') {
-		    		array_push($key_banner, $filename);
-		    		$unserialize[$key] = $key_banner;
-		    	}else{
-		    		if (!count($unserialize['slider2']) <= 3) {
-		    			return redirect('banner_list')->with('fail','Bagian banner ini maksimal 4 file');
-		    		}
-		    		
-		    		array_push($unserialize['slider2'], $filename);
-		    	};
-
 		    }else {
 		    	$filename= $key.'.jpg';
-		    	$width = 562;
-		    	if ($key == 'banner1') {
-		    		$width = 1155;
-		    	}
-
-		    	$img->resize($width,null,function ($constraint) {$constraint->aspectRatio();});
+		    	$img->resize(1155,null,function ($constraint) {$constraint->aspectRatio();});
 		    	$key_banner = $filename;
 		    	$unserialize[$key] = $key_banner;
 		    }
@@ -386,17 +367,11 @@ class SettingController extends AdminController
 		if(!$validator->passes()){
 			return redirect('banner_list')->with('fail','Banner gagal ditambahkan');
 		}
-		  	
-		$img = Image::make($file);
-
+		
 		$filename= $request->submit.'_'.$key.'.jpg';
-		
-		if ($key == 'banner1') {
-			$img->resize(1170,300);
-		}else{
-			$img->resize(480,180);
-		}
-		
+
+		$img = Image::make($file);
+		$img->resize(1170,300);
 		$img->save(storage_path('photo_banner/'.$filename),50);
 
 		$unserialize[$key] = $filename;

@@ -50,12 +50,11 @@ class PaymentController extends HomeController
 		$this->data['title']		= 'Konfirmasi Pembayaran';
 		$this->data['bank_account']	= Option::where('meta_key','bank_account')->first();
 		$this->data['invoice'] 		= $request->payment;
+		$this->data['total_price'] 	= 0;
 
 		if ($this->data['invoice']) {
 			$invoice = Order::where('no_invoice',$request->payment)->first();
 			$this->data['total_price'] = $invoice->total_price;
-		}else{
-			$this->data['total_price'] = 0;
 		}
 
 	    return view('main_layout')->with('data', $this->data)

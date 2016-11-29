@@ -102,13 +102,13 @@
                     <input type="hidden" value="{{$data['slugsubcategory']->id}}" id="slug_subcategory"></input>
                 @endif
 
-                <div class="span10">
+                <div class="span10" style="text-align: center;">
                     <?php // ============================ Banner 1 ================================= ?>
-                    <div class="col-lg-6" style="margin: 0px;padding: 0px;" >
+                    <div class="col-lg-6" style="margin: 0px;padding: 5px;" >
                             <img src="{{url('photo_banner/'.$banner['banner2'])}}" style="max-width: 100%;">
                     </div>
                     <?php // ============================ Banner 2 ================================= ?>
-                    <div class="col-lg-6" style="margin: 0px;padding: 0px;min-height: 100px;" >
+                    <div class="col-lg-6" style="margin: 0px;padding: 5px;" >
                             <img src="{{url('photo_banner/'.$banner['banner3'])}}" style="max-width: 100%;">
                     </div>
                 </div>
