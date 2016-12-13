@@ -30,19 +30,19 @@
                                         <div class="control-group">
                                             <label class="control-label" for="email">Password Lama</label>
                                             <div class="controls">
-                                                <input class="span12" type="password" id="password" name="password" placeholder="Masukkan Password Lama"  />
+                                                <input class="form-control" type="password" id="password" name="password" placeholder="Masukkan Password Lama"  />
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label" for="email">Password Baru</label>
                                             <div class="controls">
-                                                <input class="span12" type="password" id="new_pass" name="new_pass" placeholder="Masukkan Password Baru" />
+                                                <input class="form-control" type="password" id="new_pass" name="new_pass" placeholder="Masukkan Password Baru" />
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label" for="email">Konfirmasi Password Baru</label>
                                             <div class="controls">
-                                                <input class="span12" type="password" id="re_new_pass" name="re_new_pass" placeholder="Masukkan Password Baru"  />
+                                                <input class="form-control" type="password" id="re_new_pass" name="re_new_pass" placeholder="Masukkan Password Baru"  />
                                             </div>
                                         </div>
                                     </div>

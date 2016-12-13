@@ -4,16 +4,18 @@
         <div class="container">
             <div class="row">
                 <div class="span9 offset1">
+                    
                     @if(session('success'))
-                                <div class="alert alert-success">
-                                    {{session('success')}}
-                                </div>
-                                @endif
-                                @if(session('failed'))
-                                <div class="alert alert-danger">
-                                    {{session('failed')}}
-                                </div>
-                                @endif
+                        <div class="alert alert-success">
+                            {{session('success')}}
+                        </div>
+                    @endif
+                    @if(session('failed'))
+                        <div class="alert alert-danger">
+                            {{session('failed')}}
+                        </div>
+                    @endif
+
                     <form enctype="multipart/form-data" action="{{url('pembayaran')}}" method="post" />
                         <div class="box">
                             <div class="hgroup">
@@ -28,16 +30,16 @@
                                         <label for="email">No Invoice</label>
                                         <div class="control-group">
                                             @if($data['invoice'])
-                                                <input class="span12" type="text" id="no_invoice" name="no_invoice" value="{{$data['invoice']}}" required>
+                                                <input class="form-control" type="text" id="no_invoice" name="no_invoice" value="{{$data['invoice']}}" required>
                                             @else
-                                                <input class="span12" type="text" id="no_invoice" name="no_invoice" required>
+                                                <input class="form-control" type="text" id="no_invoice" name="no_invoice" required>
                                             @endif
                                         </div>
                                     </div>
                                     <div class="span6">
                                         <label for="email">Nama Pemilik Rekening</label>
                                         <div class="control-group">
-                                            <input class="span12" type="text" id="account_name" name="account_name" required>
+                                            <input class="form-control" type="text" id="account_name" name="account_name" required>
                                         </div>
                                     </div>
                                 </div>
@@ -45,13 +47,13 @@
                                     <div class="span6">
                                         <label for="email">No Rekening</label>
                                         <div class="control-group">
-                                            <input class="span12" type="text" id="bank_account" name="bank_account" required>
+                                            <input class="form-control" type="text" id="bank_account" name="bank_account" required>
                                         </div>
                                     </div>
                                     <div class="span6">
                                         <label for="email">Nama Bank</label>
                                         <div class="control-group">
-                                            <input class="span12" type="text" id="bank_name" name="bank_name" required>
+                                            <input class="form-control" type="text" id="bank_name" name="bank_name" required>
                                         </div>
                                     </div>
                                 </div>
@@ -59,7 +61,8 @@
                                     <div class="span6">
                                         <label for="email">Tujuan Rekening</label>
                                         <div class="control-group">
-                                            <select name="admin_account" id="admin_account" class="span12">
+                                            <select name="admin_account" id="admin_account" class="form-control">
+                                            
                                                 <?php $bank_account = unserialize($data['bank_account']->meta_value);?>
                                                 @foreach( $bank_account as $key => $account)
                                                     <?php $a= '';?>
@@ -68,13 +71,14 @@
                                                     @endforeach
                                                     <option value="{{$a}}">{{$a}}
                                                 @endforeach 
+
                                             </select>
                                         </div>
                                     </div>
                                     <div class="span6">
                                         <label for="email">Jumlah Transfer (<i>tanpa titik</i>)</label>
                                         <div class="control-group">
-                                            <input class="span12" type="text" id="total_transfer" name="total_transfer" required>
+                                            <input class="form-control" type="text" id="total_transfer" name="total_transfer" required>
                                         </div>
                                     </div>
                                 </div>

@@ -23,7 +23,7 @@
                                                     <div class="control-group">
                                                         <label class="control-label" for="email">Email</label>
                                                         <div class="controls">
-                                                            <input class="span12" type="text" id="email" name="email" value="" />
+                                                            <input class="form-control" type="text" id="email" name="email" value="" />
                                                         </div>
                                                     </div>
                                                 </div>

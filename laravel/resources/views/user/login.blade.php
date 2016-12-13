@@ -16,7 +16,10 @@
 				@endif
 
 				<div class="box" style="min-height:280px">
-					<div class="col-lg-6">
+					<div class="col-lg-2">
+						&nbsp;
+					</div>
+					<div class="col-lg-8">
 						<p>Login User</p>
 						<form role="POST" action="{{url('login')}}">
 							<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
@@ -26,7 +29,7 @@
 					                    <div class="control-group">
 					                        <label class="control-label" for="login_email">Email</label>
 					                        <div class="controls">
-					                            <input class="span12" id="email" type="text" name="email" value="" />
+					                            <input class="form-control" id="email" type="text" name="email" value="" />
 					                        </div>
 					                    </div>
 					                </div>
@@ -34,7 +37,7 @@
 					                    <div class="control-group">					
 					                        <label class="control-label" for="login_password">Password</label>
 					                        <div class="controls">
-					                            <input class="span12" id="password" type="password" name="password" />
+					                            <input class="form-control" id="password" type="password" name="password" />
 					                        </div>
 					                    </div>
 					                </div>
@@ -51,14 +54,9 @@
 					        <br>
 				        </form>
 			        </div>
-			        <div class="col-lg-6">
-						<p>Login With</p>
-					    <div style="padding:20px;">
-					        <button type="button" class="btn-group-justified btn btn-small btn-primary ">Facebook</button>
-					        <button type="button" class="btn-group-justified btn btn-small btn-primary ">Gmail</button>
-					        <button type="button" class="btn-group-justified btn btn-small btn-primary ">Twitter</button>
-					    </div>    
-			        </div>
+			        <div class="col-lg-2">
+						&nbsp;
+					</div>
 			        <div class="clear"></div>
 				</div>
 			</div>

@@ -19,7 +19,7 @@
                                     <div class="span12">
                                         <div class="control-group">
                                             <div class="controls">
-                                                <input class="span12" type="text" id="invoice" name="invoice" />
+                                                <input class="form-control" type="text" id="invoice" name="invoice" />
                                             </div>
                                         </div>
                                     </div>

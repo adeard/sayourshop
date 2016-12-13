@@ -266,7 +266,8 @@ class UserController extends HomeController
 			'jquery-gmap3', 
 			'imagesloaded', 
 			'la_boutique', 
-			'jquery-cookie','star-rating', 
+			'jquery-cookie',
+			'star-rating', 
 			'star-rating-min'
 		];
 
@@ -281,7 +282,7 @@ class UserController extends HomeController
 		$this->data['wishlist'] 	= array();
 		$this->data['order']		= Order::where('user_id', $this->data['user']->id)->orderBy('order_date','desc')->get();
 
-		if (empty($this->data['wish'])) {
+		if (!empty($this->data['wish'])) {
 			$unserialize = unserialize($this->data['wish']->meta_value);
 
 			foreach ($unserialize as $value) {
@@ -303,13 +304,9 @@ class UserController extends HomeController
 
 	  	$rules = array('image' => 'required',); //mimes:jpeg,bmp,png and for max size max:10000
 	  	$validator = Validator::make($file, $rules);
-		if ($validator->fails()) {
+		if ($validator->fails() || !Input::file('image')->isValid()) {
 	    	return redirect('dashboard')->with('failed','Upload Gagal');
 	  	}
-
-		if (!Input::file('image')->isValid()) {
-			return redirect('dashboard')->with('failed','Upload Gagal');
-		}
 
 		File::delete('photo_profile/'.$id->image);//hapus foto lama
 		$destinationPath = storage_path('photo_profile'); // upload path

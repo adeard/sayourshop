@@ -117,6 +117,7 @@ class SettingController extends AdminController
 		$category = new Category;
 		$category->name = $value;
 		$category->slug = str_replace(" ", "-", $value);
+		$category->created_at = date('Y-m-d');
 		$category->save();
 
 		return redirect('master/setting/category/list')->with('success','Kategori baru berhasil ditambahkan');

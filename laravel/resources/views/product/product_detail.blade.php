@@ -165,7 +165,7 @@
                                         <div class="details">
                                             <article class="rating-item">
                                                 <div class="row-fluid">
-                                                    <div class="span6">
+                                                    <div class="col-sm-6">
                                                         <label>Email</label>
                                                         
                                                         @if(Sentinel::check())
@@ -177,7 +177,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row-fluid">
-                                                    <div class="span12">
+                                                    <div class="col-sm-12">
                                                         <label>Pesan</label>
                                                         <textarea rows="5" id="message"></textarea>
                                                     </div>

@@ -129,29 +129,29 @@
                                             <input type="hidden" class="form-control" value="{{Cart::total()}}" id="cart_total" name="cart_total">
                                             <input type="hidden" class="form-control" value="" id="courier_check" name="courier_check">
                                             <input type="hidden" class="form-control" value="{{$data['weight']}}" id="weight" name="weight">
-                                            <tr>
-                                                <td><button class="btn btn-mini btn-greensea" id="alamat_baru" name="alamat_baru" type="button">Alamat Baru</button></td>
-                                            </tr>
                                         @endif
 
+                                        <tr>
+                                            <td><button class="btn btn-mini btn-greensea" id="alamat_baru" name="alamat_baru" type="button">Alamat Baru</button></td>
+                                        </tr>
                                 </table>
                             </div>
                         </form>
-                        <form id="checkout" name="checkout" action="{{url('checkout')}}" role="get">
+                        <form id="checkout" name="checkout" action="{{url('checkout')}}" method="post">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="box-content" hidden="true" id="form_new_address">
                                 <div class="row-fluid">
-                                    <div class="span6">
+                                    <div class="col-sm-6">
                                         <div class="control-group">
                                             <label for="first_name" class="control-label">Nama Lengkap</label>
                                             <div class="controls">
-                                                <input class="span12" type="text" name="name" id="name" />
+                                                <input class="form-control" type="text" name="name" id="name" />
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label for="city" class="control-label">Provinsi</label>
                                             <div class="controls">
-                                                <select class="span12" name="province" id="province" >
+                                                <select class="form-control" name="province" id="province" >
                                                     <option value="">-- Silahkan Pilih --</option>
                                                     
                                                     @foreach($data['provinces'] as $province)
@@ -164,38 +164,34 @@
                                         <div class="control-group">
                                             <label for="city" class="control-label">Kota/Kabupaten</label>
                                             <div class="controls" id="city_content">
-                                                <select class="span12" name="city" id="city"></select>
+                                                <select class="form-control" name="city" id="city"></select>
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label for="city" class="control-label">Kecamatan</label>
                                             <div class="controls">
-                                                <select class="span12" name="district" id="district" ></select>
+                                                <select class="form-control" name="district" id="district" ></select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="span6">
-                                        <div class="row-fluid">
-                                            <div class="span12">
-                                                <div class="control-group">
-                                                    <label for="phone" class="control-label">No.Telp</label>
-                                                    <div class="controls">
-                                                        <input class="span12" type="text" value="" name="phone" id="phone" />
-                                                    </div>
-                                                </div>
-                                                <div class="control-group">
-                                                    <label for="city" class="control-label">Kurir Pengiriman</label>
-                                                    <div class="controls">
-                                                        <select class="span12 courier_new" name="courier" id="courier">
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                    <div class="col-sm-6">
+                                        <div class="control-group">
+                                            <label for="phone" class="control-label">No.Telp</label>
+                                            <div class="controls">
+                                                <input class="form-control" type="text" value="" name="phone" id="phone" />
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="city" class="control-label">Kurir Pengiriman</label>
+                                            <div class="controls">
+                                                <select class="form-control courier_new" name="courier" id="courier">
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label for="address" class="control-label">Detail Alamat</label>
                                             <div class="controls">
-                                                <textarea class="span12" name="address" id="address" rows="4" ></textarea>
+                                                <textarea class="form-control" name="address" id="address" rows="4" ></textarea>
                                             </div>
                                         </div>
                                     </div>
