@@ -110,30 +110,32 @@
 
                                 <table class="table table-responsive">
                                         
-                                        @if ($data['address']) 
-                                            <?php $query = unserialize($data['address']->meta_value); ?>
-                                            <!-- mengambil properti produk -->
-                                            @foreach($data['cart'] as $product)
-                                                <?php $properties = array();?>
-                                                
-                                                @foreach( $product->options as $key => $value)
-                                                    <?php $properties[$key] = $value;?>
-                                                @endforeach
-
-                                                <input type="hidden" id="properties_{{$product->rowid}}" name="properties_{{$product->rowid}}" value="{{serialize($properties)}}"></input>
+                                    @if ($data['address']) 
+                                        <?php $query = unserialize($data['address']->meta_value); ?>
+                                        <!-- mengambil properti produk -->
+                                        @foreach($data['cart'] as $product)
+                                            <?php $properties = array();?>
+                                            
+                                            @foreach( $product->options as $key => $value)
+                                                <?php $properties[$key] = $value;?>
                                             @endforeach
 
-                                            <input type="hidden" class="form-control" id="coupon_code" name="coupon_code" value="{{session('coupon')}}">
-                                            <input type="hidden" class="form-control" value="{{session('discount')}}" id="discount" name="discount">
-                                            <input type="hidden" class="form-control" id="shipping_price" name="shipping_price">
-                                            <input type="hidden" class="form-control" value="{{Cart::total()}}" id="cart_total" name="cart_total">
-                                            <input type="hidden" class="form-control" value="" id="courier_check" name="courier_check">
-                                            <input type="hidden" class="form-control" value="{{$data['weight']}}" id="weight" name="weight">
-                                        @endif
+                                            <input type="hidden" id="properties_{{$product->rowid}}" name="properties_{{$product->rowid}}" value="{{serialize($properties)}}"></input>
+                                        @endforeach
 
+                                        <input type="hidden" class="form-control" id="coupon_code" name="coupon_code" value="{{session('coupon')}}">
+                                        <input type="hidden" class="form-control" value="{{session('discount')}}" id="discount" name="discount">
+                                        <input type="hidden" class="form-control" id="shipping_price" name="shipping_price">
+                                        <input type="hidden" class="form-control" value="{{Cart::total()}}" id="cart_total" name="cart_total">
+                                        <input type="hidden" class="form-control" value="" id="courier_check" name="courier_check">
+                                        <input type="hidden" class="form-control" value="{{$data['weight']}}" id="weight" name="weight">
+                                    @endif
+                                    @if (!empty(Sentinel::getUser()->id))
                                         <tr>
                                             <td><button class="btn btn-mini btn-greensea" id="alamat_baru" name="alamat_baru" type="button">Alamat Baru</button></td>
                                         </tr>
+                                    @endif
+
                                 </table>
                             </div>
                         </form>

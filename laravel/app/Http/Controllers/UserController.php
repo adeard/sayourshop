@@ -22,6 +22,40 @@ class UserController extends HomeController
 {
     public function login_form()
 	{
+		if (!empty(Sentinel::getUser()->id)) {
+			return redirect('/');
+		}
+
+		$css_assets = [
+			'lib-bootstrap', 
+			'style', 
+			'font-awesome', 
+			'font-awesome-min',
+			'color-schemes-core', 
+			'color-schemes-turquoise', 
+			'jquery-parallax', 
+			'bootstrap-responsive',
+			'font-family'
+		];
+
+		$js_assets = [
+			'jquery',
+		];
+
+		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
+		$this->data['title']		= 'SayourShop | Login';
+
+	    return view('main_layout')->with('data', $this->data)
+								  ->nest('content', 'user/login', array('data' => $this->data));
+	}
+
+	public function register_form()
+	{
+		if (!empty(Sentinel::getUser()->id)) {
+			return redirect('/');
+		}
+
 		$css_assets = [
 			'lib-bootstrap', 
 			'style', 
@@ -34,43 +68,11 @@ class UserController extends HomeController
 		];
 
 		$js_assets = [
-			'jquery', 
-			'jquery-ui', 
-			'jquery-easing', 
-			'bootstrap-min-lib', 
-			'jquery-isotope', 
-			'jquery-flexslider', 
-			'jquery.elevatezoom', 
-			'jquery-sharrre', 
-			'jquery-gmap3', 
-			'imagesloaded', 
-			'la_boutique', 
-			'jquery-cookie', 
-			'jquery-parallax-lib'
+			'jquery',
 		];
 
 		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
-		$this->data['js_assets'] 	= Assets::load('js', []);
-		$this->data['title']		= 'SayourShop | Login';
-
-	    return view('main_layout')->with('data', $this->data)
-								  ->nest('content', 'user/login', array('data' => $this->data));
-	}
-
-	public function register_form()
-	{
-		$css_assets = [
-			'lib-bootstrap', 
-			'style', 
-			'color-schemes-core', 
-			'font-awesome', 
-			'font-awesome-min', 
-			'color-schemes-turquoise', 
-			'bootstrap-responsive',
-			'font-family'
-		];
-		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
-		$this->data['js_assets'] 	= Assets::load('js', ['jquery']);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['title']		= 'SayourShop | Register';
 
 	    return view('main_layout')->with('data', $this->data)
@@ -79,6 +81,10 @@ class UserController extends HomeController
 
 	public function forgot_pass_form()
 	{
+		if (!empty(Sentinel::getUser()->id)) {
+			return redirect('/');
+		}
+		
 		$css_assets = [
 			'lib-bootstrap', 
 			'style', 
@@ -181,7 +187,7 @@ class UserController extends HomeController
 	}
 
 	public function register(Request $request)
-	{
+	{	
 		$rules = array(
 			'email_input' => 'required|email',
 			'pass_input' => 'required',

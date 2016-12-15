@@ -13,7 +13,7 @@
   					{{session('error')}}
 				</div>
 			@endif
-
+			<div class="alert alert-danger" id="alert_pass" hidden="true"></div>
 			<div class="col-lg-12" align="center">
 				<div class="box" style="min-height:280px">
 					<div class="col-lg-12">
@@ -37,11 +37,12 @@
 				            	<div class="col-sm-6">
 				            		<input type="password" class="form-control" id="re_pass_input" name="re_pass_input" placeholder="Minimal 6 Digit" required="true" minlength="6">
 				            	</div>
+				            	<div class="alert alert-danger" hidden="true">Password tidak sama</div>
 				            </div>
 				            <div class="form-group">
 				            	<label class="col-sm-3 control-label">Nama Lengkap<font color="red">*</font></label>
 				            	<div class="col-sm-6">
-				                	<input type="text" class="form-control" id="fullname_input" name="fullname_input" placeholder="Johny van Hawk" required="true">
+				                	<input type="text" class="form-control" id="fullname_input" name="fullname_input" placeholder="Johny van Hawk" required="true" maxlength="20">
 				              	</div>
 				            </div>
 				            <div class="form-group">
@@ -55,7 +56,7 @@
 				            <div class="col-lg-12">
 					            <div class="checkbox">
 								    <label>
-								    	<input type="checkbox" id="accept" required="true"> Saya setuju dengan <a href="{{url('terms_conditions')}}" style="color:blue">Syarat dan Ketentuan</a> & <a href="{{url('terms_conditions')}}" style="color:blue">Kebijakan Privasi</a> yang berlaku
+								    	<input type="checkbox" id="accept" required="true"> Saya setuju dengan <a href="{{url('terms_conditions')}}" style="color:blue">Syarat dan Ketentuan</a> & <a href="{{url('privacy_policy')}}" style="color:blue">Kebijakan Privasi</a> yang berlaku
 								    </label>
 							  	</div>
 							</div>
@@ -63,7 +64,7 @@
 				            <div class="form-group">
 				            	<div class="col-lg-12">
 				            	<p class="text-right">
-				            		<button type="submit" class="btn btn-small btn-belizehole pull-right" id="register_btn">Register</button>
+				            		<button type="submit" class="btn btn-small btn-belizehole pull-right" id="register_btn" disabled="true">Daftar</button>
 				            	</div>
 				            </div>
 				        </form>
@@ -76,7 +77,20 @@
 </section>
 
 @section('script')
-	<script>
+	<script type="text/javascript">
 		$("#phone_input").on("keydown", function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
+
+		$("#re_pass_input").change(function(){
+			var pass = $('#pass_input').val();
+			var repass = this.value;
+
+			if (pass != repass) {
+				$('#alert_pass').html('Password tidak cocok');
+				$('#alert_pass').show('slow');
+				this.value = '';
+			} else {
+				$('#alert_pass').hide('slow');
+			}
+		});
 	</script>
 @stop

@@ -36,16 +36,6 @@ class OrderController extends HomeController
 
 		$js_assets = [
 			'jquery',
-			'jquery-min',
-			'jquery-ui', 
-			'bootstrap-min-lib', 
-			'jquery-isotope', 
-			'jquery-flexslider', 
-			'jquery.elevatezoom', 
-			'jquery-sharrre', 
-			'imagesloaded', 
-			'la_boutique', 
-			'jquery-cookie'
 		];
 
 		$this->data['title']		= 'Keranjang';
@@ -53,9 +43,14 @@ class OrderController extends HomeController
 		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['provinces']	= Province::get();
 		$this->data['cart']			= Cart::content();
-		$this->data['address']		= UserMeta::where('user_id', Sentinel::getUser()->id)
+		$this->data['address'] 		= '';
+		
+		if (!empty(Sentinel::getUser())) {
+			$this->data['address']		= UserMeta::where('user_id', Sentinel::getUser()->id)
 												->where('meta_key','address')
 												->first();
+		}
+		
 		$sum = 0;
 
 		foreach (Cart::content() as $key) {
@@ -91,17 +86,7 @@ class OrderController extends HomeController
 		];
 
 		$js_assets = [
-			'jquery',
-			'jquery-min',
-			'jquery-ui', 
-			'bootstrap-min-lib', 
-			'jquery-isotope', 
-			'jquery-flexslider', 
-			'jquery.elevatezoom', 
-			'jquery-sharrre', 
-			'imagesloaded', 
-			'la_boutique', 
-			'jquery-cookie'
+			'jquery'
 		];
 
 		$this->data['title']		= 'Checkout';
@@ -125,8 +110,7 @@ class OrderController extends HomeController
 			'lib-bootstrap', 
 			'style', 
 			'font-awesome', 
-			'font-awesome-min', 
-			'flexslider', 
+			'font-awesome-min',
 			'color-schemes-core', 
 			'color-schemes-turquoise', 
 			'jquery-parallax', 
@@ -135,19 +119,7 @@ class OrderController extends HomeController
 		];
 
 		$js_assets = [
-			'jquery', 
-			'jquery-ui', 
-			'jquery-easing', 
-			'bootstrap-min-lib', 
-			'jquery-isotope', 
-			'jquery-flexslider', 
-			'jquery.elevatezoom', 
-			'jquery-sharrre', 
-			'jquery-gmap3', 
-			'imagesloaded', 
-			'la_boutique', 
-			'jquery-cookie', 
-			'jquery-parallax-lib'
+			'jquery',
 		];
 
 		$this->data['title']		= 'Sayourshop | Check Order';
@@ -224,9 +196,13 @@ class OrderController extends HomeController
 			'font-family'
 		];
 
+		$js_assets = [
+			'jquery'
+		];
+
 		$this->data['title']		= 'Daftar Pesanan';
 		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
-		$this->data['js_assets'] 	= Assets::load('js', ['jquery']);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['provinces']	= Province::get();
 
 	    return view('main_layout')->with('data', $this->data)
@@ -254,11 +230,7 @@ class OrderController extends HomeController
 				return redirect('keranjang')->with('fail', 'Stock Produk <b>'.$key->name.'</b> yang Anda pesan tersisa <b>'.$stock.'</b>');
 			}
 
-			if ($distributor == '') {
-				return redirect('keranjang')->with('fail', 'Maaf produk '.$key->name.' telah habis');
-			}
-
-			if ($product->status != 'publish') {
+			if ($distributor == '' || $product->status != 'publish') {
 				return redirect('keranjang')->with('fail', 'Maaf produk '.$key->name.' telah habis');
 			}
 
@@ -336,7 +308,6 @@ class OrderController extends HomeController
 				'phone' => 'required'
 			);
 			$validator 	= Validator::make($request->all(), $rules);
-
 			if ($validator->fails()) {
 				return redirect('keranjang')->with('fail', 'Silahkan isi alamat baru sesuai form yang disediakan');
 			}
@@ -476,9 +447,9 @@ class OrderController extends HomeController
 
 	public function check_order(Request $request)
 	{
-		$order = Order::where('no_invoice', $request->invoice)->first();
 		$this->data['title']	= 'Check Order';
-
+		
+		$order = Order::where('no_invoice', $request->invoice)->first();
 		if ($order == '') {
 			return redirect('cek_order_form')->with('failed','Maaf No Invoice tidak terdaftar');
 		}

@@ -70,14 +70,13 @@ class HomeController extends Controller
 												->orderBy('sold','DESC')
 												->limit(5)
 												->get();
-		
 		$user = Sentinel::getUser();
 		if ($user == '') {
 			$visitors = Option::where('meta_key', 'visitors')->first();
 			$visitors->meta_value += 1;
 			$visitors->save();
 		}
-		
+
 	    return view('main_layout')->with('data', $this->data)
 								  ->nest('content', 'home', array('data' => $this->data));
 	}
@@ -110,29 +109,15 @@ class HomeController extends Controller
 				'lib-bootstrap', 
 				'style', 
 				'font-awesome', 
-				'font-awesome-min', 
-				'flexslider', 
+				'font-awesome-min',
 				'color-schemes-core', 
-				'color-schemes-turquoise', 
-				'jquery-parallax', 
+				'color-schemes-turquoise',
 				'bootstrap-responsive',
 				'font-family'
 			];
 
 			$js_assets = [
-				'jquery', 
-				'jquery-ui', 
-				'jquery-easing', 
-				'bootstrap-min-lib', 
-				'jquery-isotope', 
-				'jquery-flexslider', 
-				'jquery.elevatezoom', 
-				'jquery-sharrre', 
-				'jquery-gmap3', 
-				'imagesloaded', 
-				'la_boutique', 
-				'jquery-cookie', 
-				'jquery-parallax-lib'
+				'jquery',
 			];
 
 			$this->data['css_assets'] 	= Assets::load('css', $css_assets);
@@ -150,8 +135,7 @@ class HomeController extends Controller
 			'lib-bootstrap', 
 			'style', 
 			'font-awesome', 
-			'font-awesome-min', 
-			'flexslider', 
+			'font-awesome-min',
 			'color-schemes-core', 
 			'color-schemes-turquoise', 
 			'jquery-parallax', 
@@ -160,18 +144,7 @@ class HomeController extends Controller
 		];
 
 		$js_assets = [
-			'jquery', 
-			'jquery-ui', 
-			'jquery-easing', 
-			'bootstrap-min-lib', 
-			'jquery-isotope', 
-			'jquery-flexslider', 
-			'jquery.elevatezoom', 
-			'jquery-sharrre', 
-			'imagesloaded', 
-			'la_boutique', 
-			'jquery-cookie', 
-			'jquery-parallax-lib'
+			'jquery',
 		];
 
 		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
@@ -188,8 +161,7 @@ class HomeController extends Controller
 			'lib-bootstrap', 
 			'style', 
 			'font-awesome', 
-			'font-awesome-min', 
-			'flexslider', 
+			'font-awesome-min',
 			'color-schemes-core', 
 			'color-schemes-turquoise', 
 			'jquery-parallax', 
@@ -198,18 +170,7 @@ class HomeController extends Controller
 		];
 
 		$js_assets = [
-			'jquery', 
-			'jquery-ui', 
-			'jquery-easing', 
-			'bootstrap-min-lib', 
-			'jquery-isotope', 
-			'jquery-flexslider', 
-			'jquery.elevatezoom', 
-			'jquery-sharrre', 
-			'imagesloaded', 
-			'la_boutique', 
-			'jquery-cookie', 
-			'jquery-parallax-lib'
+			'jquery',
 		];
 
 		$this->data['css_assets'] 	= Assets::load('css', $css_assets);

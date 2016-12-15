@@ -50,7 +50,7 @@ class ProductController extends HomeController
 		];
 
 		$this->data['css_assets'] 	= Assets::load('css', $css_assets);
-		$this->data['js_assets'] 	= Assets::load('js', [$js_assets]);
+		$this->data['js_assets'] 	= Assets::load('js', $js_assets);
 		$this->data['title']		= ucwords('Pencarian');
 		$this->data['name']			= $request->search;
 		$this->data['category']		= Category::get();

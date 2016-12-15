@@ -50,8 +50,8 @@
 				        	{!! Form::open(array('url'=>'upload_photopic','method'=>'POST', 'files'=>true)) !!}
 				        		<div class="control-group">
 				        			<div class="controls">
-				        				{!! Form::file('image') !!}
-										{!! Form::submit('Submit', array('class'=>'send-btn')) !!}
+				        				{!! Form::file('image', array('accept'=>'image/*', 'class'=>'form-control')) !!}
+										{!! Form::submit('Simpan', array('class'=>'send-btn btn btn-primary form-control')) !!}
 				        			</div>
 				        		</div>		
 				      		{!! Form::close() !!}
@@ -91,7 +91,7 @@
 					        </div>
 					        <label class="col-sm-2 control-label" style="margin: 10px;">No.Telepon</label>
 					        <div class="col-sm-8" style="padding: 5px;">
-					        	<input type="number" class="form-control" id="phone_input" name="phone_input" value="{{$data['user']->phone}}" required>
+					        	<input type="text" class="form-control" id="phone_input" name="phone_input" value="{{$data['user']->phone}}" required>
 					        </div>
 					        <label class="col-sm-2 control-label" style="margin: 10px;">&nbsp;</label>
 					        <div class="col-sm-8" style="padding: 5px;">
@@ -340,82 +340,84 @@
 </section>
 
 <script type="text/javascript">
-	$(document).ready(function(){
-		$('.del_wish').click(function(){
-			var id = this.id;
+	$('.del_wish').click(function(){
+		var id = this.id;
 
-			$.ajax({
-				url: "{!! url('del_wishlist') !!}",
-				data: {product_id: id},
-                method:'POST',
-			}).done(function(data){
-				alert("Produk telah dihapus dari wishlist");
-				location.reload();
-			});
-		});
-
-		$('.detail').click(function(){
-			var id = this.id.substr(7);
-
-			$.ajax({
-				url: "{!! url('order_detail') !!}",
-				data: {orderid: id},
-                method:'GET',
-			}).done(function(data){
-				$('#modaldetail').html(data);
-			});
-		});
-
-		$('#province').change(function(){
-            var id = $('#province').val();
-
-            $.ajax({
-                url: "{!! url('konten_kota') !!}",
-                data: {id: id},
-                method:'GET',
-            }).done(function(data){
-                $('#city').html(data);
-            });
-        });
-
-        $('#city').change(function(){
-            var id = $('#city').val();
-
-            $.ajax({
-                url: "{!! url('konten_kecamatan') !!}",
-                data: {id: id},
-                method:'GET',
-            }).done(function(data){
-                $('#district').html(data);
-            });
-        });
-
-        $('#review').click(function(){
-        	var resi = this.value;
-        	var order_id = this.name;
-
-        	$.ajax({
-                url: "{!! url('modal_review') !!}",
-                data: {
-                	resi: resi,
-                	order_id: order_id
-                },
-                method:'POST',
-            }).done(function(data){
-                $('#modaldetail').html(data);
-            });
-        });
-
-        $('#modaldetail').on('hidden.bs.modal', function (){
-			var user_id = $('#user_id').val();
-
-			$.ajax({
-				url: "{!! url('update_order') !!}",
-				data: { user_id:user_id },
-				method:'GET',
-			}).done(function(data){
-				$('#order').html(data);
-			});
+		$.ajax({
+			url: "{!! url('del_wishlist') !!}",
+			data: {product_id: id},
+            method:'POST',
+		}).done(function(data){
+			alert("Produk telah dihapus dari wishlist");
+			location.reload();
 		});
 	});
+
+	$('.detail').click(function(){
+		var id = this.id.substr(7);
+
+		$.ajax({
+			url: "{!! url('order_detail') !!}",
+			data: {orderid: id},
+            method:'GET',
+		}).done(function(data){
+			$('#modaldetail').html(data);
+		});
+	});
+
+	$('#province').change(function(){
+        var id = $('#province').val();
+
+        $.ajax({
+            url: "{!! url('konten_kota') !!}",
+            data: {id: id},
+            method:'GET',
+        }).done(function(data){
+            $('#city').html(data);
+        });
+    });
+
+    $('#city').change(function(){
+        var id = $('#city').val();
+
+        $.ajax({
+            url: "{!! url('konten_kecamatan') !!}",
+            data: {id: id},
+            method:'GET',
+        }).done(function(data){
+            $('#district').html(data);
+        });
+    });
+
+    $('#review').click(function(){
+    	var resi = this.value;
+    	var order_id = this.name;
+
+    	$.ajax({
+            url: "{!! url('modal_review') !!}",
+            data: {
+            	resi: resi,
+            	order_id: order_id
+            },
+            method:'POST',
+        }).done(function(data){
+            $('#modaldetail').html(data);
+        });
+    });
+
+    $('#modaldetail').on('hidden.bs.modal', function (){
+		var user_id = $('#user_id').val();
+
+		$.ajax({
+			url: "{!! url('update_order') !!}",
+			data: { user_id:user_id },
+			method:'GET',
+		}).done(function(data){
+			$('#order').html(data);
+		});
+	});
+
+	$("#phone_input").on("keydown", function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
+
+	$("#phone").on("keydown", function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
 </script>

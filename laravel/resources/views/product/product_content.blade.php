@@ -1,5 +1,4 @@
 <div class="span10 posts" style="padding-top: 10px;">
-    <!-- Products list -->
     <div class="product-list">
         
         @foreach($data['product'] as $product)
@@ -33,6 +32,7 @@
         {!! $products->render() !!}    
     </div>
 </div>
+
 <script type="text/javascript">
     $('.pagination a').click(function(e){
 

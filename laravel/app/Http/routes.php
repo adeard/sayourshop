@@ -44,6 +44,8 @@ Route::get('terms_conditions', 'HomeController@terms_conditions');
 Route::get('privacy_policy', 'HomeController@privacy_policy');
 Route::get('mail', 'UserController@mail');
 Route::get('update_order', 'UserController@update_order');
+Route::get('sort_product', 'ProductController@sort_product');
+Route::get('sort_search', 'ProductController@sort_search');
 
 Route::post('save_photo', 'ProductController@save_photo');
 Route::post('order', 'OrderController@order');
@@ -58,8 +60,6 @@ Route::post('subproduct_content', 'ProductController@subproduct_content');
 Route::post('review_content', 'ProductController@review_content');
 Route::post('wishlist', 'ProductController@wishlist');
 Route::post('del_wishlist', 'ProductController@del_wishlist');
-Route::post('sort_product', 'ProductController@sort_product');
-Route::post('sort_search', 'ProductController@sort_search');
 Route::post('check_invoice', 'PaymentController@check_invoice');
 Route::post('check_paid', 'PaymentController@check_paid');
 Route::post('send_message', 'UserController@ask_product');

@@ -35,9 +35,9 @@
                         
                         @if(Sentinel::check())
                             <a href="{{url('dashboard') }}" style="min-width:150px"><i class="fa fa-user"></i> {{ucwords(Sentinel::getUser()->fullname)}}</a>
-                            <a href="{{url('logout')}}" style="min-width:150px"><i class="glyphicon glyphicon-log-out"></i> Log Out</a>
+                            <a href="{{url('logout')}}" style="min-width:150px"><i class="glyphicon glyphicon-log-out"></i> Logout</a>
                         @else
-                            <a href="{{url('login_form')}}" style="min-width:150px"><i class="fa fa-user"></i> Login</a> <a href="{{url('daftar')}}" style="min-width:150px">Register</a>
+                            <a href="{{url('login_form')}}" style="min-width:150px"><i class="fa fa-user"></i> Login</a> <a href="{{url('daftar')}}" style="min-width:150px">Daftar</a>
                         @endif
 
                     </h1>
@@ -77,7 +77,7 @@
                                         
                                         @foreach($sub as $key)
                                         <li>
-                                            <a href="{{ url('produk/'.$category.'/'.$key->slug)}}" title="Shoes">
+                                            <a href="{{ url('produk/'.$category.'/'.$key->slug)}}" title={{ucwords($key->subname)}}>
                                                    {{ucwords($key->subname)}}           
                                             </a>
                                         </li>
@@ -130,7 +130,7 @@
             <div class="col-lg-3">
                 <!-- Support -->
                 <div class="support" style="min-height:200px">
-                    <h6>Support</h6>
+                    <h6>Dukungan</h6>
                     <div class="list-chevron links">
                         <li>
                             <a href="{{url('contact')}}" title="Kontak Kami" class="title">Kontak Kami</a>
@@ -154,7 +154,7 @@
             <div class="col-lg-3">
                 <!-- Categories -->
                 <div class="categories" style="min-height:200px">
-                    <h6>Categories</h6>
+                    <h6>Kategori</h6>
 
                     <div class="list-chevron links">
                         <?php
@@ -202,36 +202,31 @@
                 <!-- Newsletter subscription -->
                 <div style="min-height:200px">
                     <div class="newsletter">
-                        <h6>Newsletter subscription</h6>                                        
+                        <h6>Subscribe</h6>                                        
                     </div>
                     <form class="form-horizontal" onsubmit="$('#newsletter_subscribe').modal('show'); return false;" enctype="multipart/form-data" action="/" method="post">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="exampleInputName2" placeholder="Search..." >
+                            <input type="text" class="form-control" id="exampleInputName2" placeholder="Email..." >
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button" style="height:34px"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                             </span>
                         </div>
                     </form>
                     <div class="newsletter">
-                        <p style="margin-top:20px">Sign up to receive our latest news and updates direct to your inbox</p>
+                        <p style="margin-top:20px">Daftarkan email kamu untuk mendapatkan berita terbaru kami langsung</p>
                     </div>
                 </div>
                 <!-- End class="newsletter" -->
             </div>
             <!-- Social icons -->
             <div class="social col-md-3">
-                <h6>Socialize with us</h6>
+                <h6>Hubungi kami</h6>
                 <div class="social-icons">
                     <li>
                         <a class="twitter" href="#" title="Twitter">Twitter</a>                             
                     </li>
-
                     <li>
                         <a class="facebook" href="#" title="Facebook">Facebook</a>                              
-                    </li>
-
-                    <li>
-                        <a class="youtube" href="#" title="YouTube">YouTube</a>                             
                     </li>
                     <li>
                         <a class="googleplus" href="#" title="Google+">Google+</a>                              
