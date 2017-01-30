@@ -51,7 +51,7 @@
 				        				{!! Form::file('image', array('accept'=>'image/*', 'class'=>'form-control')) !!}
 										{!! Form::submit('Simpan', array('class'=>'send-btn btn btn-primary form-control')) !!}
 				        			</div>
-				        		</div>		
+				        		</div>
 				      		{!! Form::close() !!}
 
 						</p>
@@ -93,7 +93,7 @@
 					        <label class="col-sm-2 control-label" style="margin: 10px;">&nbsp;</label>
 					        <div class="col-sm-8" style="padding: 5px;">
 					        	<button type="submit" class="btn btn-small btn-primary" >Simpan</button>
-						    	<a href="{{ url('form_ubah_pass')}}"> 
+						    	<a href="{{ url('form_ubah_pass')}}">
 						          	<button type="button" class="btn btn-small btn-peterriver">
 						          		Ubah Password
 						          	</button>
@@ -117,7 +117,7 @@
 										</thead>
 										<tbody id="address_user">
 
-											@if ($data['address']) 
+											@if ($data['address'])
 												<?php $query = unserialize($data['address']->meta_value); ?>
 												
 												@foreach($query as $address => $value)
@@ -163,7 +163,7 @@
 						    			if ($data['rekening']) {
 						    				$query = unserialize($data['rekening']->meta_value);
 						    				$total_rek =count($query);
-						    				for ($i=0; $i < $total_rek ; $i++) { 
+						    				for ($i=0; $i < $total_rek ; $i++) {
 						    			?>
 
 
@@ -187,7 +187,7 @@
 						<!-- Modal -->
 						<div id="add_address" class="modal fade" role="dialog">
 							<div class="modal-dialog">
-								<form action="{{url('tambah_alamat')}}" method="POST">
+								<form>
 									<input type="hidden" name="_token" value="{{ csrf_token() }}">
 								    <div class="modal-content">
 								      	<div class="modal-header">
@@ -195,6 +195,8 @@
 									        <h4 class="modal-title">Alamat</h4>
 								      	</div>
 								      	<div class="modal-body">
+											<?php $total_address = count(unserialize($data['address']->meta_value)); ?>
+											<input type="hidden" id="total_address" name="total_address" value="{{$total_address}}">
 									      	<div class="form-group">
 								                <label class="control-label">Nama</label>
 								                <input type="text" class="form-control" id="name" name="name" required>
@@ -228,7 +230,7 @@
 								          	</div>
 								      	</div>
 								      	<div class="modal-footer">
-								      		<button type="submit" class="btn btn-primary">Tambah</button>
+								      		<button type="button" class="btn btn-primary" id="submit_new_address">Tambah</button>
 								        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 								      	</div>
 								    </div>
@@ -361,7 +363,35 @@
 				);
 			}
 		});
-	}
+	};
+	
+	$('#submit_new_address').click(function(){
+		var new_address = {
+			name: $('#name').val(),
+			phone : $('#phone').val(),
+			province : $('#province').val(),
+			city : $('#city').val(),
+			district : $('#district').val(),
+			address : $('#address').val()
+		};
+		var total_address = $('#total_address').val();
+		
+		$.ajax({
+			url: "{!! url('tambah_alamat') !!}",
+			data: new_address,
+            method:'POST',
+		}).done(function(data){
+			$('#address_user').append(`
+				<tr>
+					<td>`+new_address.name+`</td>
+					<td>`+new_address.phone+`</td>
+					<td>`+new_address.address+`</td>
+					<td><a href='{{url('hapus_alamat/`+total_address+`')}}'><button class="btn btn-mini btn-alizarin del_address" id="alamat_`+i+`" name="alamat_`+total_address+`">hapus</button></a></td>
+				</tr>
+			`);
+			$('#add_address').modal('toggle');
+		});
+	});
 
 	$('.del_address').click(function(){
 		// var id = this.id;

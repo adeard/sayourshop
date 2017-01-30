@@ -46,6 +46,7 @@ Route::get('mail', 'UserController@mail');
 Route::get('update_order', 'UserController@update_order');
 Route::get('sort_product', 'ProductController@sort_product');
 Route::get('sort_search', 'ProductController@sort_search');
+Route::get('address_user', 'UserController@address_user');
 
 Route::post('save_photo', 'ProductController@save_photo');
 Route::post('order', 'OrderController@order');
@@ -72,6 +73,7 @@ Route::post('pembayaran', 'PaymentController@payment');
 Route::post('ubah_pass', 'UserController@change_pass');
 Route::post('tambah_alamat', 'UserController@add_address');
 Route::post('checkout', 'OrderController@checkout');
+Route::post('subscribe', 'HomeController@subscribe');
 //END ADE
 
 //UDIN
@@ -204,5 +206,5 @@ Route::controller('datatables', 'Admin\DistributorController', [
 
 Route::get('manageMailChimp', 'MailChimpController@manageMailChimp');
 
-Route::post('subscribe', ['as'=>'subscribe','uses'=>'MailChimpController@subscribe']);
+// Route::post('subscribe', ['as'=>'subscribe','uses'=>'MailChimpController@subscribe']);
 Route::post('sendCompaign', ['as'=>'sendCompaign','uses'=>'MailChimpController@sendCompaign']);

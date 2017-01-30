@@ -64,7 +64,7 @@
 				            <div class="form-group">
 				            	<div class="col-lg-12">
 				            	<p class="text-right">
-				            		<button type="submit" class="btn btn-small btn-belizehole pull-right" id="register_btn" disabled="true">Daftar</button>
+				            		<button type="submit" class="btn btn-small btn-belizehole pull-right" id="register_btn">Daftar</button>
 				            	</div>
 				            </div>
 				        </form>

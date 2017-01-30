@@ -109,16 +109,40 @@
                                                         <span rel="tooltip" title="Terjual">Terjual</span>
                                                     </div>
                                                     <div class="categories">
-                                                        <span><i class="icon-tags"></i><a href="#" title="Dresses">{{$data['product']->sold}}</a></span>
+                                                        <span><i class="icon-tags"></i><a href="#" title="Terjual">{{$data['product']->sold}}</a></span>
                                                     </div>
                                                     
                                                     <div class="sku">
                                                         <i class="icon-pencil"></i>
-                                                        <span rel="tooltip" title="Berat barang">Berat</span>
+                                                        <span rel="tooltip" title="Berat Barang">Berat</span>
                                                     </div>
                                                     <div class="categories">
-                                                        <span id="weight" name="weight"><i class="icon-tags"></i><a href="#" title="Dresses">{{$data['product']->weight}} g</a></span>
+                                                        <span id="weight" name="weight"><i class="icon-tags"></i><a href="#" title="Berat Barang">{{$data['product']->weight}} g</a></span>
                                                     </div>
+                                                    <br>
+                                                    <h5>Stok Tersedia</h5>
+                                                    
+                                                    <?php
+                                                        $prop = unserialize($data['product']->properties);
+                                                        foreach ($prop as $key => $value) {
+                                                    ?>
+                                                        <h6>Warna {{$key}}</h6>
+                                                        <br>
+                                                        
+                                                        <?php
+                                                            foreach ($prop[$key] as $key_size => $value_size) {
+                                                        ?>
+                                                            <div class="sku">
+                                                                <span rel="tooltip" title="{{strtoupper($key_size)}}"><b>{{strtoupper($key_size)}} :</b></span>
+                                                            </div>
+                                                            <div class="categories">
+                                                                <span id="size" name="size"><i class="icon-tags"></i><a href="#" title="{{$value_size}}">{{$value_size}}</a></span>
+                                                            </div>
+                                                    <?php
+                                                            }
+                                                        }
+                                                    ?>
+                                                    
                                                 </div>
                                             </div>
                                             <div class="short-description">
@@ -317,17 +341,15 @@
         }
 
         $('#send_message').click(function(){
-            var email = $('#email').val();
-            var message = $('#message').val();
-            var product_id = $('input[name=id]').val();
+            var send_message = {
+                email : $('#email').val(),
+                message : $('#message').val(),
+                product_id : $('input[name=id]').val()
+            };
             
             $.ajax({
                 url: "{!! url('send_message') !!}",
-                data: {
-                    email: email,
-                    message: message,
-                    product_id: product_id
-                },
+                data: send_message,
                 method: 'POST'
             }).done(function(result){
                 $('#alert_message').html("Pesan berhasil dikirim");
@@ -347,12 +369,12 @@
                 var product_id = $('input[name=id]').val();
 
                 $.ajax({
-                url: "{!! url('wishlist') !!}",
-                data: {
-                    product_id: product_id
-                },
-                method:'POST',
-                success: function(data) {
+                    url: "{!! url('wishlist') !!}",
+                    data: {
+                        product_id: product_id
+                    },
+                    method:'POST',
+                    success: function(data) {
                         alert('Produk berhasil ditambahkan ke wishlist');
                     }
                 });

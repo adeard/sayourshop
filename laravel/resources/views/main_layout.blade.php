@@ -202,7 +202,7 @@
                 <!-- Newsletter subscription -->
                 <div style="min-height:200px">
                     <div class="newsletter">
-                        <h6>Subscribe</h6>
+                        <h6>Berlangganan</h6>
                     </div>
                     <form class="form-horizontal" enctype="multipart/form-data" method="post">
                         <div id="alert_subscribe" hidden="true"></div>
@@ -214,7 +214,7 @@
                         </div>
                     </form>
                     <div class="newsletter">
-                        <p style="margin-top:20px">Daftarkan email kamu untuk mendapatkan berita terbaru kami langsung</p>
+                        <p style="margin-top:20px">Daftarkan email kamu untuk mendapatkan promo terbaru kami langsung</p>
                     </div>
                 </div>
                 <!-- End class="newsletter" -->
