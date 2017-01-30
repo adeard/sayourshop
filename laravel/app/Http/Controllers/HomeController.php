@@ -12,6 +12,7 @@ use App\Http\Models\Guest;
 use App\Http\Models\Product;
 use App\Http\Models\Option;
 use App\Http\Models\Ask;
+use App\Http\Models\Subscribe;
 use DB, Cart;
 use Redirect, Validator, Session, File, Response, Image, Sentinel;
 
@@ -30,30 +31,30 @@ class HomeController extends Controller
     public function index()
 	{
 		$css_assets = [
-			'lib-bootstrap', 
-			'style', 
-			'font-awesome', 
-			'font-awesome-min', 
-			'flexslider', 
-			'color-schemes-core', 
-			'color-schemes-turquoise', 
-			'jquery-parallax', 
+			'lib-bootstrap',
+			'style',
+			'font-awesome',
+			'font-awesome-min',
+			'flexslider',
+			'color-schemes-core',
+			'color-schemes-turquoise',
+			'jquery-parallax',
 			'bootstrap-responsive',
 			'font-family'
 		];
 
 		$js_assets = [
-			'jquery', 
-			'jquery-ui', 
-			'jquery-easing', 
-			'bootstrap-min-lib', 
-			'jquery-isotope', 
-			'jquery-flexslider', 
-			'jquery.elevatezoom', 
-			'jquery-sharrre', 
-			'imagesloaded', 
-			'la_boutique', 
-			'jquery-cookie', 
+			'jquery',
+			'jquery-ui',
+			'jquery-easing',
+			'bootstrap-min-lib',
+			'jquery-isotope',
+			'jquery-flexslider',
+			'jquery.elevatezoom',
+			'jquery-sharrre',
+			'imagesloaded',
+			'la_boutique',
+			'jquery-cookie',
 			'jquery-parallax-lib'
 		];
 
@@ -106,11 +107,11 @@ class HomeController extends Controller
 			return redirect('contact')->with('success', 'Pesan anda telah dikirimkan, kami akan membalas pesan anda secepatnya');
 		}else{
 			$css_assets = [
-				'lib-bootstrap', 
-				'style', 
-				'font-awesome', 
+				'lib-bootstrap',
+				'style',
+				'font-awesome',
 				'font-awesome-min',
-				'color-schemes-core', 
+				'color-schemes-core',
 				'color-schemes-turquoise',
 				'bootstrap-responsive',
 				'font-family'
@@ -132,13 +133,13 @@ class HomeController extends Controller
 	public function terms_conditions(Request $request)
 	{
 		$css_assets = [
-			'lib-bootstrap', 
-			'style', 
-			'font-awesome', 
+			'lib-bootstrap',
+			'style',
+			'font-awesome',
 			'font-awesome-min',
-			'color-schemes-core', 
-			'color-schemes-turquoise', 
-			'jquery-parallax', 
+			'color-schemes-core',
+			'color-schemes-turquoise',
+			'jquery-parallax',
 			'bootstrap-responsive',
 			'font-family'
 		];
@@ -158,13 +159,13 @@ class HomeController extends Controller
 	public function privacy_policy(Request $request)
 	{
 		$css_assets = [
-			'lib-bootstrap', 
-			'style', 
-			'font-awesome', 
+			'lib-bootstrap',
+			'style',
+			'font-awesome',
 			'font-awesome-min',
-			'color-schemes-core', 
-			'color-schemes-turquoise', 
-			'jquery-parallax', 
+			'color-schemes-core',
+			'color-schemes-turquoise',
+			'jquery-parallax',
 			'bootstrap-responsive',
 			'font-family'
 		];
@@ -179,6 +180,23 @@ class HomeController extends Controller
 
 	    return view('main_layout')->with('data', $this->data)
 								  ->nest('content', 'privacy_policy', array('data' => $this->data));
+	}
+	
+	public function subscribe(Request $request)
+	{
+		if (!empty($request->email)) {
+			$check_email = Subscribe::where('email', $request->email)->first();
+			
+			if (!empty($check_email)) {
+				return 'failed';
+			}
+			
+			$new_subscribe = new Subscribe;
+			$new_subscribe->email = $request->email;
+			$new_subscribe->save();
+			
+			return 'success';
+		}
 	}
 	
 }

@@ -10,7 +10,7 @@
                 </div>
             @elseif(session('failed'))
                 <div class="alert alert-danger">
-                    {{session('failed')}} 
+                    {{session('failed')}}
                 </div>
             @endif
 
@@ -86,10 +86,10 @@
                                                     <div class="rating" style="color: #1abc9c;">
                                                         
                                                         @if($data['product']->rating > 0)
-                                                            <?php 
+                                                            <?php
                                                                 $stars = $data['product']->rating/count($data['product']->reviews);
                                                                 $half = $data['product']->rating % count($data['product']->reviews);
-                                                                for ($i=0; $i < floor($stars); $i++) { 
+                                                                for ($i=0; $i < floor($stars); $i++) {
                                                             ?>
                                                                     <i class="fa fa-star fa-lg"></i>
                                                             <?php
@@ -152,7 +152,7 @@
                                                     <i class="icon-plus"></i> Jadikan Favorit
                                                 </button>
                                             </div>
-                                        </form>                     
+                                        </form>
                                     </div>
                                     <!-- End id="product" -->
                                     <!-- Ratings tab -->
@@ -191,11 +191,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- End id="ratings" -->          
-                                </div>                                            
-                                <!-- End tab panels container -->            
+                                    <!-- End id="ratings" -->
+                                </div>
+                                <!-- End tab panels container -->
                             </div>
-                        </div>                                    
+                        </div>
                         <!-- End class="product-content" -->
                     </div>
                 </div>
@@ -257,8 +257,8 @@
 
                     </div>
                 </div>
-            </div>  
-        </section>                    
+            </div>
+        </section>
         <!-- End class="products-related" -->
         <!-- Added to cart modal window -->
         <div name="added" id="added" class="modal hide fade" tabindex="-1">
@@ -269,8 +269,8 @@
                     <h5>"Chaser Overalls" has been added to your cart</h5>
                 </div>
             </div>
-            <div class="modal-footer">  
-                <div class="pull-right">                
+            <div class="modal-footer">
+                <div class="pull-right">
                     <a href="cart.html" class="btn btn-primary btn-small">
                         Go to cart &nbsp; <i class="icon-chevron-right"></i>
                     </a>
@@ -312,7 +312,7 @@
                 },
                 method:'POST',
             }).done(function(data){
-                $('#ratings').html(data);  
+                $('#ratings').html(data);
             });
         }
 
@@ -339,6 +339,9 @@
         $(document).ready(function(){
             var color = $('#warna option:selected').val();
             var product_id = $('input[name=id]').val();
+            
+            size_product(product_id, color);
+            review(product_id);
 
             $('#wishlist').click(function(){
                 var product_id = $('input[name=id]').val();
@@ -356,16 +359,13 @@
 
             });
 
-            size_product(product_id, color);
-            review(product_id);
-
             $("#quantity").on("keydown", function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
             
     	    $("#zoom-image").elevateZoom({
-                cursor: "pointer", 
-                galleryActiveClass: "active", 
-                scrollZoom : true , 
-                imageCrossfade: true, 
+                cursor: "pointer",
+                galleryActiveClass: "active",
+                scrollZoom : true ,
+                imageCrossfade: true,
                 loadingIcon: "http://www.elevateweb.co.uk/spinner.gif"
             });
 

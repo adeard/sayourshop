@@ -308,7 +308,7 @@ class UserController extends HomeController
 		$id = Sentinel::getUser();
 	  	$file = array('image' => Input::file('image'));
 
-	  	$rules = array('image' => 'required',); //mimes:jpeg,bmp,png and for max size max:10000
+	  	$rules = array('image' => 'required'); //mimes:jpeg,bmp,png and for max size max:10000
 	  	$validator = Validator::make($file, $rules);
 		if ($validator->fails() || !Input::file('image')->isValid()) {
 	    	return redirect('dashboard')->with('failed','Upload Gagal');
@@ -319,10 +319,9 @@ class UserController extends HomeController
 		$extension = Input::file('image')->getClientOriginalExtension(); // getting image extension
 		$fileName = $id->id.'.'.$extension; // renameing image
 		Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
-		//insert DB
+
 		$id->image = $fileName;
 		$id->save(); 
-		//end insert
 		
 		return redirect('dashboard')->with('completed','Upload berhasil');
 	}
@@ -379,7 +378,7 @@ class UserController extends HomeController
 		
 		$user = Sentinel::findByCredentials($credentials);
 		$check_user = Sentinel::validateCredentials($user, $credentials); //return boolean 1/0
-		if ($user == "" || $check_user == "") { //cek akun
+		if ($user == "" || $check_user == "") {
 			return redirect('master/login')->with('error','Email/Password Anda salah');
 		}
 		
@@ -618,5 +617,12 @@ class UserController extends HomeController
 		    'subject' => 'Hello',
 		    'text'    => 'Testing some Mailgun awesomness!'
 		));
+	}
+
+	public function address_user(Request $request)
+	{
+		$user = Sentinel::getUser();
+		$user_meta = UserMeta::where('user_id', $user->id)->where('meta_key', 'address')->first();
+		return json_encode(unserialize($user_meta->meta_value));
 	}
 }

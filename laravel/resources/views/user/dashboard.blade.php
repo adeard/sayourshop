@@ -23,15 +23,13 @@
 			  				{{session('completed')}}
 						</div>
 					@endif
-	
-					
+
 					@if(session('failed'))
 						<div class="alert alert-danger">
 			  				{{session('failed')}}
 						</div>
 					@endif
 
-					
 					@if($data['user']->image == "")
 						<div class="text-center">
 							<img src="assets/image/user-image.png" class="user-image">
@@ -60,7 +58,6 @@
 					</div>
 				</div>
 			</div>
-			<?php // ================== User Information ================== ?>
 			<div class="span9">
 				<ul class="nav nav-tabs" role="tablist">
 	    			<li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profil</a></li>
@@ -110,36 +107,38 @@
 						    		<button type="button" class="btn btn-mini btn-primary" data-toggle="modal" data-target="#add_address">Tambah</button>
 						    		<br><br>
 						    		<table class="table table-responsive">
-						    			<thead>
-						        			<tr>
-						        				<th>Nama</th>
-						        				<th>No Telepon</th>
-						        				<th>Alamat</th>
-						        				<th>Opsi</th>
-						        			</tr>
-						    			</thead>
-						    			<tbody>
-						    		
-						    			@if ($data['address']) 
-						    				<?php $query = unserialize($data['address']->meta_value); ?>
-						        			
-						        			@foreach($query as $address => $value)
-						        				<tr>
-						        					
-						        					@foreach($value as $ind => $key)
-						        						@if($ind != 'provinsi' and $ind != 'kota' and $ind != 'kecamatan')
-						        							<td>{{$key}}</td>
-						        						@endif
-						        					@endforeach
+										<thead>
+											<tr>
+												<th>Nama</th>
+												<th>No Telepon</th>
+												<th>Alamat</th>
+												<th>Opsi</th>
+											</tr>
+										</thead>
+										<tbody id="address_user">
 
-						        					<td><a href='{{url('hapus_alamat/'.$address)}}' ><button class="btn btn-mini btn-alizarin" id="alamat_{{$address}}" name="alamat_{{$address}}">hapus</button></a></td>
-						        				</tr>
-						        			@endforeach
+											@if ($data['address']) 
+												<?php $query = unserialize($data['address']->meta_value); ?>
+												
+												@foreach($query as $address => $value)
+													<tr>
+														
+														@foreach($value as $ind => $key)
+															
+															@if($ind != 'provinsi' and $ind != 'kota' and $ind != 'kecamatan')
+																<td>{{$key}}</td>
+															@endif
 
-						    			@endif
+														@endforeach
 
-						    			</tbody>
-						    		</table>
+														<td><a href='{{url('hapus_alamat/'.$address)}}' ><button class="btn btn-mini btn-alizarin" id="alamat_{{$address}}" name="alamat_{{$address}}">hapus</button></a></td>
+													</tr>
+												@endforeach
+
+											@endif
+
+										</tbody>
+									</table>
 						    	</div>
 						    	<div class="panel-footer"></div>
 						    </div>
@@ -188,7 +187,6 @@
 						<!-- Modal -->
 						<div id="add_address" class="modal fade" role="dialog">
 							<div class="modal-dialog">
-								<!-- Modal content-->
 								<form action="{{url('tambah_alamat')}}" method="POST">
 									<input type="hidden" name="_token" value="{{ csrf_token() }}">
 								    <div class="modal-content">
@@ -238,10 +236,8 @@
 							</div>
 						</div>
 
-						<!-- Modal -->
-						<div id="myModal" class="modal fade" role="dialog">
+						<!-- <div id="myModal" class="modal fade" role="dialog">
 							<div class="modal-dialog">
-							    <!-- Modal content-->
 							    <form action="{{url('tambah_rek')}}" method="GET">
 								    <div class="modal-content">
 								      	<div class="modal-header">
@@ -270,7 +266,7 @@
 								    </div>
 							    </form>
 							</div>
-						</div>
+						</div> -->
 					</div>
 					<div role="tabpanel" class="tab-pane fade" id="order">
 						<table class="table table-responsive" id="order_tbl">
@@ -288,48 +284,53 @@
 					        <tbody>
 						        <form action="{{url('konfirmasi_pembayaran')}}">
 						        
-						        @foreach($data['order'] as $value)
-							        <tr>
-							        	<td id="inv_{{$value->id}}" name="inv_{{$value->id}}">{{$value->no_invoice}}</td>
-							        	<td>{{ date_format(date_create($value->order_date), "d M Y")}}</td>
-							        	<td><button type="button" id="detail_{{$value->id}}" name="detail_{{$value->id}}" class="btn btn-mini btn-belizehole detail">Detail</button> </td>
-							        	<td name="total_price" id="total_price">Rp. {{ number_format($value->total_price, 0, ",", ".") }}</td>
-							        	<td>{{$value->order_status}}</td>
-							        	<td>{{$value->no_resi}}</td>
-							        	
-							        	@if ($value->order_status == 'Menunggu Pembayaran')
-							            	<td>
-							            		<button type="submit" id="payment" name="payment" class="btn btn-mini btn-greensea" value="{{$value->no_invoice}}">Pembayaran</button>
-							            	</td>
-							            @elseif($value->order_status == 'Dikirim')
-							            	<td>
-							            		<button type="button" class="btn btn-mini btn-greensea receive" id="review" name="{{$value->id}}" value="{{$value->no_resi}}">Diterima</button>
-							            	</td>
-							        	@else
-							            	<td>
-							            		<button type="button" disabled="true" class="btn btn-mini btn-greensea">Pembayaran</button>
-							            	</td>
-							        	@endif
+							        @foreach($data['order'] as $value)
+								        <tr>
+								        	<td id="inv_{{$value->id}}" name="inv_{{$value->id}}">{{$value->no_invoice}}</td>
+								        	<td>{{ date_format(date_create($value->order_date), "d M Y")}}</td>
+								        	<td><button type="button" id="detail_{{$value->id}}" name="detail_{{$value->id}}" class="btn btn-mini btn-belizehole detail">Detail</button> </td>
+								        	<td name="total_price" id="total_price">Rp. {{ number_format($value->total_price, 0, ",", ".") }}</td>
+								        	<td>{{$value->order_status}}</td>
+								        	<td>{{$value->no_resi}}</td>
+								        	
+								        	@if ($value->order_status == 'Menunggu Pembayaran')
+								            	<td>
+								            		<button type="submit" id="payment" name="payment" class="btn btn-mini btn-greensea" value="{{$value->no_invoice}}">Pembayaran</button>
+								            	</td>
+								            @elseif($value->order_status == 'Dikirim')
+								            	<td>
+								            		<button type="button" class="btn btn-mini btn-greensea receive" id="review" name="{{$value->id}}" value="{{$value->no_resi}}">Diterima</button>
+								            	</td>
+								        	@else
+								            	<td>
+								            		<button type="button" disabled="true" class="btn btn-mini btn-greensea">Pembayaran</button>
+								            	</td>
+								        	@endif
 
-							        </tr>
-						        @endforeach
+								        </tr>
+							        @endforeach
 
 						        </form>
 					        </tbody>
 						</table>
-						<!-- Modal -->
 						<div id="modaldetail"></div>
 					</div>
 					<div role="tabpanel" class="tab-pane fade" id="wishlist">
 						
-						@foreach($data['wishlist'] as $wish)
-							<?php $image = unserialize($wish->image); ?>
-							<div class="text-center pull-left col-sm-3" style="padding-top:10px; ">
-								<img src=" {{url('photo_product/'.$image[0])}}" class="product" style="width: 150px;"><br> <br>
-								<a href="{{url('produk/'.$wish->category->slug.'/'.$wish->subcategory->slug.'/'.$wish->id)}}"><button type="button" class="btn btn-mini btn-primary">{{$wish->name}}</button></a>
-								<button type="button" class="btn btn-mini btn-alizarin del_wish" id="{{$wish->id}}">Hapus</button>
-							</div>
-						@endforeach
+						@if(!empty($data['wishlist']))
+
+							@foreach($data['wishlist'] as $wish)
+								<?php $image = unserialize($wish->image); ?>
+								<div class="text-center pull-left col-sm-3" style="padding-top:10px; ">
+									<img src=" {{url('photo_product/'.$image[0])}}" class="product" style="width: 150px;"><br> <br>
+									<a href="{{url('produk/'.$wish->category->slug.'/'.$wish->subcategory->slug.'/'.$wish->id)}}"><button type="button" class="btn btn-mini btn-primary">{{$wish->name}}</button></a>
+									<button type="button" class="btn btn-mini btn-alizarin del_wish" id="{{$wish->id}}">Hapus</button>
+								</div>
+							@endforeach
+
+						@else
+							<h6 align="center"><b>Kosong</b></h6>
+						@endif
 
 					</div>
 					<div class="clear"></div>
@@ -340,6 +341,37 @@
 </section>
 
 <script type="text/javascript">
+	$(document).ready(function(){
+		getAddress();
+	});
+
+	function getAddress(){
+		url = "{!! url('address_user') !!}";
+		$('#address_user').empty();
+		
+		$.getJSON(url, {}, function(data){
+			for(i=0;i<data.length;i++){
+				$('#address_user').append(
+					`<tr>
+						<td>`+data[i].nama+`</td>
+						<td>`+data[i].telepon+`</td>
+						<td>`+data[i].alamat+`</td>
+						<td><a href='{{url('hapus_alamat/`+i+`')}}'><button class="btn btn-mini btn-alizarin del_address" id="alamat_`+i+`" name="alamat_`+i+`">hapus</button></a></td>
+					</tr>`
+				);
+			}
+		});
+	}
+
+	$('.del_address').click(function(){
+		// var id = this.id;
+		// url = "{{url('hapus_alamat')}}";
+		console.log("test");
+		// $.post(url, {}, function(data){
+
+		// }, "json");
+	});
+
 	$('.del_wish').click(function(){
 		var id = this.id;
 

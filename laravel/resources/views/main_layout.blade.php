@@ -26,7 +26,7 @@
                                 </div>
                             </div>
                             <!-- End class="search"-->
-                        </div> 
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-5 col-sm-5 col-xs-12" align="center">
@@ -48,7 +48,7 @@
     </div>
     <!-- End class="bottom" -->
 </div>
-<!-- End class="header" --> 
+<!-- End class="header" -->
 
 <!-- Navigation -->
 <nav class="navigation">
@@ -64,7 +64,7 @@
                         <?php
                             $total_app = count($data['category']);
 
-                            for ($i=0; $i < $total_app ; $i++) { 
+                            for ($i=0; $i < $total_app ; $i++) {
                         ?>
                             <li>
                                 <a href="{{ url('produk/'.$data['category'][$i]->slug) }}">
@@ -78,7 +78,7 @@
                                         @foreach($sub as $key)
                                         <li>
                                             <a href="{{ url('produk/'.$category.'/'.$key->slug)}}" title={{ucwords($key->subname)}}>
-                                                   {{ucwords($key->subname)}}           
+                                                   {{ucwords($key->subname)}}
                                             </a>
                                         </li>
                                         @endforeach
@@ -106,10 +106,10 @@
                         <option value="" selected="selected" />Go to&hellip;
                         <option value="{{url('/')}}" />Home
                         @foreach($data['category'] as $category)
-                            <option value="{{url('produk/'.$category->slug)}}" />{{ucwords($category->name)}}   
+                            <option value="{{url('produk/'.$category->slug)}}" />{{ucwords($category->name)}}
                         @endforeach
-                        <option value="{{url('check_order')}}" />Cek Order 
-                        <option value="{{url('contact')}}" />Kontak Kami              
+                        <option value="{{url('check_order')}}" />Cek Order
+                        <option value="{{url('contact')}}" />Kontak Kami
                     </select>
                 </div>
             </div>
@@ -122,11 +122,11 @@
 {!! $content !!}
 
 <!-- Twitter bar -->
-<!-- End class="twitter-bar" -->            
+<!-- End class="twitter-bar" -->
 <!-- Footer -->
 <div class="footer" style="margin-top: 40px;">
     <div class="container">
-        <div class="row">   
+        <div class="row">
             <div class="col-lg-3">
                 <!-- Support -->
                 <div class="support" style="min-height:200px">
@@ -134,10 +134,10 @@
                     <div class="list-chevron links">
                         <li>
                             <a href="{{url('contact')}}" title="Kontak Kami" class="title">Kontak Kami</a>
-                        </li> 
+                        </li>
                         <li>
                             <a href="{{url('cek_order_form')}}" title="Cek Order" class="title">Cek Order</a>
-                        </li>                                         
+                        </li>
                         <li>
                             <a href="{{url('konfirmasi_pembayaran')}}" title="Konfirmasi Pembayaran" class="title">Konfirmasi Pembayaran</a>
                         </li>
@@ -160,7 +160,7 @@
                         <?php
                             $total_app = count($data['category']);
 
-                            for ($i=0; $i < $total_app ; $i++) { 
+                            for ($i=0; $i < $total_app ; $i++) {
                         ?>
                             <li>
                                 <a href="{{ url('produk/'.$data['category'][$i]->slug) }}">
@@ -174,7 +174,7 @@
                                         @foreach($tes as $key)
                                         <li>
                                             <a href="{{ url('produk/'.$category.'/'.$key->slug)}}" title="{{ucwords($key->subname)}}">
-                                                {{ucwords($key->subname)}}           
+                                                {{ucwords($key->subname)}}
                                             </a>
                                         </li>
                                         @endforeach
@@ -198,17 +198,18 @@
                 </div>
                 <!-- End class="confidence" -->
             </div>
-            <div class="col-lg-3">          
+            <div class="col-lg-3">
                 <!-- Newsletter subscription -->
                 <div style="min-height:200px">
                     <div class="newsletter">
-                        <h6>Subscribe</h6>                                        
+                        <h6>Subscribe</h6>
                     </div>
-                    <form class="form-horizontal" onsubmit="$('#newsletter_subscribe').modal('show'); return false;" enctype="multipart/form-data" action="/" method="post">
+                    <form class="form-horizontal" enctype="multipart/form-data" method="post">
+                        <div id="alert_subscribe" hidden="true"></div>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="exampleInputName2" placeholder="Email..." >
+                            <input type="text" class="form-control" id="email_subscribe" placeholder="Email..." >
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" style="height:34px"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                <button class="btn btn-default" type="button" style="height:34px" id="submit_subscribe" name="submit_subscribe"><span class="glyphicon glyphicon-check" aria-hidden="true"></span></button>
                             </span>
                         </div>
                     </form>
@@ -223,16 +224,16 @@
                 <h6>Hubungi kami</h6>
                 <div class="social-icons">
                     <li>
-                        <a class="twitter" href="#" title="Twitter">Twitter</a>                             
+                        <a class="twitter" href="#" title="Twitter">Twitter</a>
                     </li>
                     <li>
-                        <a class="facebook" href="#" title="Facebook">Facebook</a>                              
+                        <a class="facebook" href="#" title="Facebook">Facebook</a>
                     </li>
                     <li>
-                        <a class="googleplus" href="#" title="Google+">Google+</a>                              
+                        <a class="googleplus" href="#" title="Google+">Google+</a>
                     </li>
                     <li>
-                        <a class="instagram" href="#" title="Instagram">Instagram</a>                               
+                        <a class="instagram" href="#" title="Instagram">Instagram</a>
                     </li>
                 </div>
             </div>
@@ -252,4 +253,28 @@
     </div>
 </div>
 <!-- End class="credits" -->
+<script type="text/javascript">
+    $('#submit_subscribe').click(function(){
+        var email_subscribe = $('#email_subscribe').val();
+        
+        $('#alert_subscribe').hide('slow');
+        
+        $.ajax({
+            url: "{!! url('subscribe') !!}",
+            data: {
+                email: email_subscribe
+            },
+            method:'POST',
+        }).done(function(data){
+            if (data == 'success') {
+                $('#alert_subscribe').html('<div class="alert alert-success">Email berhasil didaftarkan</div>');
+            } else {
+                $('#alert_subscribe').html('<div class="alert alert-danger">Email gagal didaftarkan</div>');
+            }
+            
+            $('#alert_subscribe').show('slow');
+            $('#email_subscribe').val('');
+        });
+    });
+</script>
 @stop
