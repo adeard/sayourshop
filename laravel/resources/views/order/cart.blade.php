@@ -41,7 +41,7 @@
                                             </thead>
                                             <tbody>
                                                 
-                                                @foreach($data['cart'] as $product)                                 
+                                                @foreach($data['cart'] as $product)
                                                     <tr>
                                                         <td class="col_product text-left">
                                                             <h5>
@@ -81,8 +81,8 @@
                                     </div>
                                 </div>
                             </form>
-                        </div>                       
-                    </div>  
+                        </div>
+                    </div>
                     <!-- End id="checkout-content" -->
                     <!-- Checkout content -->
                     <div id="checkout-content">
@@ -110,7 +110,7 @@
 
                                 <table class="table table-responsive">
                                         
-                                    @if ($data['address']) 
+                                    @if ($data['address'])
                                         <?php $query = unserialize($data['address']->meta_value); ?>
                                         <!-- mengambil properti produk -->
                                         @foreach($data['cart'] as $product)
@@ -197,7 +197,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>  
+                                </div>
                             </div>
                             <div class="box-footer">
                                 <div class="pull-left">
@@ -232,13 +232,13 @@
                                 @endif
 
                             </div>
-                        </form>                  
-                    </div>  
+                        </form>
+                    </div>
                     <!-- End id="checkout-content" -->
 
                 </div>
             </div>
-            <div class="span3">                                    
+            <div class="span3">
                 <!-- Cart details -->
                 <div class="cart-details">
                     <div class="box">
@@ -285,7 +285,7 @@
                                     <button class="btn btn-default" type="submit" style="height:34px"><i class="fa fa-check"></i></button>
                                 </span>
                             </div>
-                        </form>     
+                        </form>
                     </div>
                 </div>
             <!-- End class="coupon" -->
@@ -307,14 +307,14 @@
                             </select>
                         <label for="coupon_code">Kota/Kabupaten</label>
                         <select class="form-control" name="city_check" id="city_check"></select>
-                        <div id='result_check'></div>
+                        <div id='result_check' hidden="true"></div>
                     </div>
                 </div>
-            <!-- End class="coupon" -->               
+            <!-- End class="coupon" -->
             </div>
 
         </div>
-    </div>  
+    </div>
 </section>
 <!-- End class="checkout" -->
 <script type="text/javascript">
@@ -423,6 +423,8 @@
             var cart = $('#cart_total').val();
             var value = $('#courier').val();
             
+            $('#result_check').hide('slow');
+            
             $.ajax({
                 url: "{!! url('konten_kota') !!}",
                 data: {id: id},
@@ -435,12 +437,15 @@
         $('#city_check').change(function(){
             var id = $('#city_check').val();
             
+            $('#result_check').hide('slow');
+            
             $.ajax({
                 url: "{!! url('cek_ongkir') !!}",
                 data: {id: id},
                 method:'POST',
             }).done(function(data){
                 $('#result_check').html(data);
+                $('#result_check').show('slow');
             });
         });
 
